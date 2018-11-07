@@ -10,8 +10,8 @@
 - Możliwość określenia głębokości szukania i sposobu
 przeszukiwania poddomen
 - Szukanie zdań spełniających warunki:
-- Zawierają dane słowa, ciągi słów, wildcards,
-- Nie zawierają danych słów.
+  - Zawierają dane słowa, ciągi słów, wildcards,
+  - Nie zawierają danych słów.
 - Wizualizacja wyników w formie listy i na diagramie
 - Gromadzenie przeszukiwań i wyników w bazie, pomijanie
 starych wyników przy kolejnym uruchomieniu
