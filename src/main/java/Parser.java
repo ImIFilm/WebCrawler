@@ -54,12 +54,14 @@ public class Parser{
 
             for(int j=0;j<howMany;j++){
                 link=links.get(j);
-                System.out.println("marsz= " + link.text() );
+                Formater sentence = new Formater (link.text());
+                String newest = sentence.showOnlySentenceWithWord(what);
+                System.out.println(j + ":   " + newest);
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (IndexOutOfBoundsException e){
-            System.out.println("nie ma tyle linków, ile kazałeś pokazać");
+            System.out.println("\nnie ma tyle linków, ile kazałeś pokazać");
         }
         return;
     }
