@@ -10,7 +10,7 @@ public class Run extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("My first JavaFX app");
+        this.primaryStage.setTitle("Web Crawler");
         new AppController(primaryStage).initRootLayout();
     }
 

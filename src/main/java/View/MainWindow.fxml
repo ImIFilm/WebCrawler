@@ -25,6 +25,8 @@
         <TableView fx:id="queryTableView" prefHeight="200.0"
                    prefWidth="200.0" BorderPane.alignment="CENTER">
             <columns>
+                <TableColumn fx:id="queryUrlColumn" prefWidth="75.0"
+                             text="Url" />
                 <TableColumn fx:id="sentencePatternColumn" prefWidth="75.0"
                              text="Sentence Pattern" />
                 <TableColumn fx:id="forbiddenWordsColumn" prefWidth="75.0"
