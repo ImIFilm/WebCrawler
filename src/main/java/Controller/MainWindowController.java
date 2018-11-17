@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Page;
+import Model.Query;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -17,9 +17,9 @@ public class MainWindowController {
     private AppController appController;
 
     @SuppressWarnings("unused")
-    private ObservableList<UrlPerSentence> pages;
+    private ObservableList<UrlPerSentence> urlPerSentences;
 
-    private ObservableList<Query> queries = FXCollections.observableArrayList();
+    private ObservableList<Query> queries;
 
     @FXML
     private TableView<UrlPerSentence> pageTableView;
@@ -47,7 +47,7 @@ public class MainWindowController {
     private TableColumn<Query,Integer> deepColumn;
 
     @FXML
-    private TableColumn<Query,Boolean> ifMineColumn;
+    private TableColumn<Query,Boolean> subdomainsColumn;
 
 
     @FXML
@@ -62,7 +62,7 @@ public class MainWindowController {
         sentencePatternColumn.setCellValueFactory(dataValue -> new SimpleStringProperty(dataValue.getValue().getSentencePattern()));
         forbiddenWordsColumn.setCellValueFactory(dataValue -> new SimpleStringProperty(dataValue.getValue().getForbiddenWords()));
         deepColumn.setCellValueFactory(dataValue -> new SimpleObjectProperty<>(dataValue.getValue().getDeep()));
-        ifMineColumn.setCellValueFactory(dataValue -> new SimpleObjectProperty<>(dataValue.getValue().getIfMine()));
+        subdomainsColumn.setCellValueFactory(dataValue -> new SimpleObjectProperty<>(dataValue.getValue().getSubdomains()));
     }
 
     @FXML
@@ -74,39 +74,14 @@ public class MainWindowController {
         this.appController = appController;
     }
 
-    public void setPages(ObservableList<Page> inputPages){
-        this.pages = FXCollections.observableArrayList();
-        for( Page page: inputPages){
-            for( String url: page.getSentencesProperty()){
-                this.pages.add(new UrlPerSentence(page.getUrlProperty(),new SimpleStringProperty(url)));
-            }
-        }
-        pageTableView.setItems(pages);
-    }
-
-    public void setQueries(ObservableList<Query> inputQueries){
-        queryTableView.setItems(inputQueries);
-    }
-
-    private class UrlPerSentence{
-        private SimpleStringProperty sentence;
-        private SimpleStringProperty url;
-        public UrlPerSentence(SimpleStringProperty url, SimpleStringProperty sentence){
-            this.url = url;
-            this.sentence = sentence;
-        }
-
-        public SimpleStringProperty getSentence(){
-            return sentence;
-        }
-
-        public SimpleStringProperty getUrl(){
-            return url;
-        }
+    public void setTableViews(ObservableList<UrlPerSentence> urlPerSentences, ObservableList<Query> queries){
+        this.urlPerSentences = urlPerSentences;
+        this.queries= queries;
+        pageTableView.setItems(urlPerSentences);
+        queryTableView.setItems(queries);
     }
 
     public void addQuery(Query query){
         queries.add(query);
-
     }
 }

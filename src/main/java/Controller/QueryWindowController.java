@@ -46,6 +46,11 @@ public class QueryWindowController {
                 forbiddenWordsTextField.getText(),
                 Integer.decode(deepTextField.getText()),
                 Boolean.valueOf(ifMineTextField.getText()));
+        urlTextField.setText(null);
+        queryTextField.setText(null);
+        forbiddenWordsTextField.setText(null);
+        deepTextField.setText(null);
+        ifMineTextField.setText(null);
 
     }
     public void setAppController(AppController appController) {

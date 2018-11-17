@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Page;
+import Model.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -18,11 +18,10 @@ public class AppController {
     private Stage primaryStage;
     private Stage dialogStage;
     private ObservableList<Query> queries;
-    private ObservableList<Page> pages;
+    private ObservableList<UrlPerSentence> urlPerSentences;
 
     public AppController(Stage primaryStage) {
         this.primaryStage = primaryStage;
-//        this.queries = queries;
     }
 
     public void initRootLayout() {
@@ -39,17 +38,12 @@ public class AppController {
             controller.setAppController(this);
 
             //test values
-            pages = FXCollections.observableArrayList();
-            Page page = new Page("onet");
-            page.addSentence("ala ma kota");
-            page.addSentence("bardzo fajnego");
-            pages.add(page);
             queries = FXCollections.observableArrayList();
+            urlPerSentences = FXCollections.observableArrayList();
+            urlPerSentences.add(new UrlPerSentence("onet","ala ma kota"));
             queries.add(new Query("onet","ala * kot","pies",1,true));
 
-            controller.setPages(pages);
-            controller.setQueries(queries);
-
+            controller.setTableViews(urlPerSentences,queries);
             // add layout to a scene and show them all
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);

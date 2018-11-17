@@ -23,18 +23,16 @@ public class Formater {
         iterator.setText(source);
         String now;
         List<String> tokens = new ArrayList<>();
-        tokens.add(what.toLowerCase());
-        tokens.add(what.toLowerCase().substring(0, 1).toUpperCase() + what.toLowerCase().substring(1));
-        tokens.add(what.toUpperCase());
+        tokens.add(what);
         String patternString = ".*(" + StringUtils.join(tokens, "|") + ").*";
         Pattern pattern = Pattern.compile(patternString);
 
         int start = iterator.first();
         for (int end = iterator.next(); end != BreakIterator.DONE; start = end, end = iterator.next()) {
-            now=source.substring(start,end);
+            now=source.substring(start,end).toLowerCase();
             Matcher matcher = pattern.matcher(now);
             if (matcher.find())
-                return now;
+                return source.substring(start,end);
         }
         return " ";
     }

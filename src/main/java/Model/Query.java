@@ -1,4 +1,4 @@
-package Controller;
+package Model;
 
 public class Query {
 
@@ -6,18 +6,18 @@ public class Query {
     private String sentencePattern;
     private String forbiddenWords;
     private Integer deep;
-    private boolean ifMine;
+    private boolean subdomains;
 
     public Query(String url,
                  String sentencePattern,
                  String forbiddenWords,
                  int deep,
-                 boolean ifMine){
+                 boolean subdomains){
         this.url = url;
         this.sentencePattern = sentencePattern;
         this.forbiddenWords = forbiddenWords;
         this.deep = deep;
-        this.ifMine = ifMine;
+        this.subdomains = subdomains;
     }
 
     public String getUrl(){
@@ -35,8 +35,8 @@ public class Query {
         return deep;
     }
 
-    public boolean getIfMine(){
-        return ifMine;
+    public boolean getSubdomains(){
+        return subdomains;
     }
 }
 
