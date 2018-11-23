@@ -5,6 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.collections.FXCollections?>
 <BorderPane prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="Controller.QueryWindowController">
     <center>
@@ -14,6 +15,8 @@
                 <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
+                <RowConstraints minHeight="10.0" />
+                <RowConstraints minHeight="10.0" />
                 <RowConstraints minHeight="10.0" />
                 <RowConstraints minHeight="10.0" />
                 <RowConstraints minHeight="10.0" />
@@ -61,16 +64,25 @@
                         <Insets bottom="0.0" left="5.0" right="5.0" top="5.0" />
                     </GridPane.margin>
                 </TextField>
-                <TextField fx:id="deepTextField" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <Spinner fx:id="deepSpinner" GridPane.columnIndex="1" GridPane.rowIndex="3">
                     <GridPane.margin>
                         <Insets bottom="0.0" left="5.0" right="5.0" top="5.0" />
                     </GridPane.margin>
-                </TextField>
-                <TextField fx:id="ifMineTextField" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <valueFactory>
+                        <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10" initialValue="3" amountToStepBy="1"/>
+                    </valueFactory>
+                </Spinner>
+                <ChoiceBox fx:id="SubdomainsText" GridPane.columnIndex="1" GridPane.rowIndex="4" value="true">
                     <GridPane.margin>
                         <Insets bottom="0.0" left="5.0" right="5.0" top="5.0" />
                     </GridPane.margin>
-                </TextField>
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="true" />
+                            <String fx:value="false" />
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
 
             </children>
         </GridPane>
@@ -78,29 +90,21 @@
     <bottom>
         <HBox alignment="BOTTOM_RIGHT" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
-                <Button mnemonicParsing="false" onAction="#handleCancelAction" prefWidth="60.0" text="Cancel">
+                <Button mnemonicParsing="false" onAction="#handleCancelAction" prefWidth="90.0" text="Cancel">
+                    <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </HBox.margin></Button>
+                <Button mnemonicParsing="false" onAction="#handleOk" prefWidth="90.0" text="Add" >
                     <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </HBox.margin></Button>
             </children>
+
             <BorderPane.margin>
                 <Insets bottom="0.0" left="5.0" right="5.0" top="5.0" />
             </BorderPane.margin>
         </HBox>
     </bottom>
-    <top>
-        <HBox alignment="BOTTOM_LEFT" spacing="5.0" BorderPane.alignment="CENTER">
-            <children>
-                <Button mnemonicParsing="false" onAction="#handleOk" prefWidth="60.0" text="Ok">
-                    <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                    </HBox.margin></Button>
-            </children>
-            <BorderPane.margin>
-                <Insets bottom="0.0" left="5.0" right="5.0" top="5.0" />
-            </BorderPane.margin>
-        </HBox>
-    </top>
     <opaqueInsets>
         <Insets />
     </opaqueInsets>

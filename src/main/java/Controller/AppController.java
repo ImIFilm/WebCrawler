@@ -24,6 +24,10 @@ public class AppController {
         this.primaryStage = primaryStage;
     }
 
+    public Stage getDialogStage() {
+        return dialogStage;
+    }
+
     public void initRootLayout() {
         try {
             this.primaryStage.setTitle("Web Crawler");

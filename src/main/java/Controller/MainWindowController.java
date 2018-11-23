@@ -54,6 +54,9 @@ public class MainWindowController {
     private Button addButton;
 
     @FXML
+    private Button startButton;
+
+    @FXML
     private void initialize() {
         urlColumn.setCellValueFactory(dataValue -> dataValue.getValue().getUrl());
         sentenceColumn.setCellValueFactory(dataValue -> dataValue.getValue().getSentence());
@@ -68,6 +71,12 @@ public class MainWindowController {
     @FXML
     private void handleAddAction(ActionEvent event) {
         appController.showAddQueryDialog();
+    }
+
+    @FXML
+    private void handleStartAction(ActionEvent event) {
+
+        System.out.println("Started WebCrawling!!");
     }
 
     public void setAppController(AppController appController) {

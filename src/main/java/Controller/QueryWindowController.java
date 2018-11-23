@@ -2,8 +2,18 @@ package Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class QueryWindowController {
     private AppController appController;
@@ -21,10 +31,10 @@ public class QueryWindowController {
     private TextField forbiddenWordsTextField;
 
     @FXML
-    private TextField deepTextField;
+    private Spinner deepSpinner;
 
     @FXML
-    private TextField ifMineTextField;
+    private ChoiceBox SubdomainsText;
 
     @FXML
     private void initialize() {
@@ -40,17 +50,37 @@ public class QueryWindowController {
     @FXML
     private void handleOk(ActionEvent event) {
 
-        appController.addQueryDialog(
-                urlTextField.getText(),
-                queryTextField.getText(),
-                forbiddenWordsTextField.getText(),
-                Integer.decode(deepTextField.getText()),
-                Boolean.valueOf(ifMineTextField.getText()));
-        urlTextField.setText(null);
-        queryTextField.setText(null);
-        forbiddenWordsTextField.setText(null);
-        deepTextField.setText(null);
-        ifMineTextField.setText(null);
+        if(urlTextField.getText().isEmpty()){
+            System.out.println("Jest pusty url");
+            FXMLLoader loader = new FXMLLoader();
+            try {
+            loader.setLocation(new File("src/main/java/View/WarningWindow.fxml").toURL());
+
+                BorderPane page = (BorderPane) loader.load();
+            QueryWindowController controller = loader.getController();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Warning");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(appController.getDialogStage());
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }else {
+            appController.addQueryDialog(
+                    urlTextField.getText(),
+                    queryTextField.getText(),
+                    forbiddenWordsTextField.getText(),
+                    Integer.decode(deepSpinner.getValue().toString()),
+                    Boolean.valueOf(SubdomainsText.getSelectionModel().getSelectedItem().toString()));
+            urlTextField.setText(null);
+            queryTextField.setText(null);
+            forbiddenWordsTextField.setText(null);
+        }
 
     }
     public void setAppController(AppController appController) {
