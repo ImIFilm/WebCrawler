@@ -5,14 +5,13 @@ public class RegexpCreator {
     private String searchExpr = null;
     private boolean valid = true;
 
-    public RegexpCreator(String sentence, String forbidden_words) throws Exception{
+    public RegexpCreator(String sentence, String forbidden_words){
         if(!validateInput(sentence, forbidden_words)){
             valid = false;
             return;
         }
-        ArrayList<String> forbiddenWords = new ArrayList<>(Arrays.asList(forbidden_words.split(" ")));
-        ArrayList<String> words = new ArrayList<>(Arrays.asList(sentence.split(" ")));
-        System.out.println(forbiddenWords);
+        ArrayList<String> forbiddenWords = new ArrayList<>(Arrays.asList(forbidden_words.split("[\\s\\,]+")));
+        ArrayList<String> words = new ArrayList<>(Arrays.asList(sentence.split("[\\s\\,]+")));
 
         StringBuilder strBuilder = new StringBuilder();
 
@@ -45,18 +44,14 @@ public class RegexpCreator {
         System.out.println(this.searchExpr);
     }
 
-    public Pattern getSearchExpr(){
-        return searchExpr != null ? Pattern.compile(searchExpr) : Pattern.compile("");
+    public String getSearchExpr(){
+        return searchExpr;
     }
 
     private boolean validateInput(String sentence, String forbidden){
-        String inputValidator = "^[a-zA-Z]+( (\\* )*[a-zA-Z]+)*$";
-        String forbidValidator = "^[a-zA-Z\\s\\p{L}]*$";
+        String inputValidator = "^[a-zA-Z]+([\\s\\,]+(\\*[\\s\\,]+)*[a-zA-Z]+)*\\s*$";
+        String forbidValidator = "^[a-zA-Z\\,\\s\\p{L}]*$";
         return sentence.matches(inputValidator) && forbidden.matches(forbidValidator);
-    }
-
-    public boolean getValid(){
-        return valid;
     }
 
     private String getAnyWordPattern(int count){
