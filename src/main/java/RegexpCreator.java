@@ -27,10 +27,17 @@ public class RegexpCreator {
         Matcher matcher = pattern.matcher(sentence);
         boolean first = true;
         while(matcher.find()){
-            String word = first ? matcher.group(1).concat(" ") : matcher.group(1);
+            String word = matcher.group(1);
             String rest = matcher.group(2);
             int starCount = (int)rest.chars().filter(c -> c == '*').count();
-            strBuilder.append(word).append(starCount > 0 ? getAnyWordPattern(starCount) : " ");
+            if(starCount > 0){
+                if(first)
+                    word = word.concat(" ");
+                strBuilder.append(word).append(getAnyWordPattern(starCount));
+            }
+            else{
+                strBuilder.append(word).append(" ");
+            }
             first = false;
         }
         strBuilder.deleteCharAt(strBuilder.length() - 1).append(")");
