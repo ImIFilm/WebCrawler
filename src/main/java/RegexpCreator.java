@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegexpCreator {
@@ -11,7 +12,6 @@ public class RegexpCreator {
             return;
         }
         ArrayList<String> forbiddenWords = new ArrayList<>(Arrays.asList(forbidden_words.split("[\\s\\,]+")));
-        ArrayList<String> words = new ArrayList<>(Arrays.asList(sentence.split("[\\s\\,]+")));
 
         StringBuilder strBuilder = new StringBuilder();
 
@@ -22,24 +22,19 @@ public class RegexpCreator {
 
         strBuilder.append(String.format(".*%s)).*(", forbiddenWords.get(forbiddenWords.size() - 1)));
 
-        //append words we search for
-        Iterator<String> iter = words.iterator();
-        String word = iter.next();
-        int counter = 0;
-        while(iter.hasNext()){
-            if(!word.equals("*"))
-                strBuilder.append(word).append(" ");
-            word = iter.next();
-            while(iter.hasNext() && word.equals("*")){
-                counter++;
-                word = iter.next();
-            }
-            if(counter > 0)
-                strBuilder.append(getAnyWordPattern(counter));
-            counter = 0;
+        String divider = "([a-zA-Z]+)([\\*\\,\\s]*)";
+        Pattern pattern = Pattern.compile(divider);
+        Matcher matcher = pattern.matcher(sentence);
+        boolean first = true;
+        while(matcher.find()){
+            String word = first ? matcher.group(1).concat(" ") : matcher.group(1);
+            String rest = matcher.group(2);
+            int starCount = (int)rest.chars().filter(c -> c == '*').count();
+            strBuilder.append(word).append(starCount > 0 ? getAnyWordPattern(starCount) : " ");
+            first = false;
         }
+        strBuilder.deleteCharAt(strBuilder.length() - 1).append(")");
 
-        strBuilder.append(words.get(words.size() - 1)).append(")");
         this.searchExpr = strBuilder.toString();
         System.out.println(this.searchExpr);
     }
@@ -49,7 +44,7 @@ public class RegexpCreator {
     }
 
     private boolean validateInput(String sentence, String forbidden){
-        String inputValidator = "^[a-zA-Z]+([\\s\\,]+(\\*[\\s\\,]+)*[a-zA-Z]+)*\\s*$";
+        String inputValidator = "^[a-zA-Z]+([\\*\\,\\s]+[a-zA-Z]+)*\\s*$";
         String forbidValidator = "^[a-zA-Z\\,\\s\\p{L}]*$";
         return sentence.matches(inputValidator) && forbidden.matches(forbidValidator);
     }
