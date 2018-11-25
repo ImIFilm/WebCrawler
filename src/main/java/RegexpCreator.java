@@ -53,7 +53,10 @@ public class RegexpCreator {
     private boolean validateInput(String sentence, String forbidden){
         String inputValidator = "^[a-zA-Z]+([\\*\\,\\s]+[a-zA-Z]+)*\\s*$";
         String forbidValidator = "^[a-zA-Z\\,\\s\\p{L}]*$";
-        return sentence.matches(inputValidator) && forbidden.matches(forbidValidator);
+        ArrayList<String> sentenceList = new ArrayList<>(Arrays.asList(sentence.split("[\\s\\,\\*]+")));
+        ArrayList<String> forbidList = new ArrayList<>(Arrays.asList(forbidden.split("[\\s\\,]+")));
+        sentenceList.retainAll(forbidList);
+        return sentence.matches(inputValidator) && forbidden.matches(forbidValidator) && sentenceList.isEmpty();
     }
 
     private String getAnyWordPattern(int count){
