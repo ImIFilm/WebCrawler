@@ -55,18 +55,15 @@ public class Parser{
         Document doc = null;
         try {
             doc = Jsoup.connect(where).get();
-            String lookFor = String.format("div:contains(%s)", " ");
-//            Elements links = doc.select("div");
-            Elements links = doc.select(lookFor);
+            Elements links = doc.select("div");
             Element link;
-
+            List<String> newest = new ArrayList<>();
             for(int j=0;j<links.size();j++){
                 link=links.get(j);
-                System.out.println("Hejo");
                 Formater sentence = new Formater(link.text());
-                List<String> newest = sentence.showOnlySentenceWithWord(what);
-                return newest;
+                newest.addAll(sentence.showOnlySentenceWithWord(what));
             }
+            return newest;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (IndexOutOfBoundsException e){
@@ -80,7 +77,7 @@ public class Parser{
         try {
             File input = new File(fileName);
             doc = Jsoup.parse(input, "UTF-8");
-            String lookFor = String.format("div:contains(%s)", " ");
+//            String lookFor = String.format("div:contains(%s)", " ");
             Elements links = doc.select("div");
 //            Elements links = doc.select(lookFor);
             Element link;

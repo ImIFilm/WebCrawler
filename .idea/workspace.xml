@@ -5,18 +5,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/Controller/AppController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/Controller/AppController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/Controller/MainWindowController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/Controller/MainWindowController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/Controller/QueryWindowController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/Controller/QueryWindowController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/Controller/UrlPerSentence.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/Controller/UrlPerSentence.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Formater.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/Model/Query.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/Model/Query.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/Parser.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/AppController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/MainWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/MainWindowController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/QueryWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/QueryWindowController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/UrlPerSentence.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/UrlPerSentence.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Formater.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Utilities/Formater.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Query.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/Query.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Utilities/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/RegexpCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Utilities/RegexpCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Utilities/Formater.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Utilities/Formater.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Utilities/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Utilities/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/RegexpCreatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/RegexpCreatorTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -72,16 +66,16 @@
           <entry key="fxml" value="292" />
           <entry key="gradle" value="30" />
           <entry key="html" value="111" />
-          <entry key="java" value="2651" />
-          <entry key="txt" value="148" />
+          <entry key="java" value="2762" />
+          <entry key="txt" value="186" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Groovy" value="30" />
           <entry key="HTML" value="111" />
-          <entry key="JAVA" value="2651" />
-          <entry key="PLAIN_TEXT" value="148" />
+          <entry key="JAVA" value="2762" />
+          <entry key="PLAIN_TEXT" value="186" />
           <entry key="XML" value="292" />
         </counts>
       </usages-collector>
@@ -101,8 +95,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Utilities/Formater.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="19" column="72" lean-forward="true" selection-start-line="19" selection-start-column="72" selection-end-line="19" selection-end-column="72" />
+            <state relative-caret-position="186">
+              <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -110,11 +104,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Utilities/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="64" column="40" selection-start-line="64" selection-start-column="40" selection-end-line="64" selection-end-column="40" />
+            <state relative-caret-position="732">
+              <caret line="58" column="25" lean-forward="true" selection-start-line="58" selection-start-column="25" selection-end-line="58" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -122,8 +116,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/RegexpCreatorTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="50" column="38" lean-forward="true" selection-start-line="50" selection-start-column="38" selection-end-line="50" selection-end-column="38" />
+            <state relative-caret-position="-90">
+              <caret line="43" column="56" lean-forward="true" selection-start-line="43" selection-start-column="56" selection-end-line="43" selection-end-column="56" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -149,8 +143,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Controller/AppController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="402">
-              <caret line="48" column="64" selection-start-line="48" selection-start-column="57" selection-end-line="48" selection-end-column="64" />
+            <state relative-caret-position="330">
+              <caret line="80" column="53" selection-start-line="80" selection-start-column="53" selection-end-line="80" selection-end-column="53" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#572#573#0" expanded="true" />
@@ -162,11 +156,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Utilities/Crawler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="28" column="53" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
+            <state relative-caret-position="414">
+              <caret line="23" column="25" lean-forward="true" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -564,9 +558,9 @@
         <option value="$PROJECT_DIR$/src/main/java/Controller/UrlPerSentence.java" />
         <option value="$PROJECT_DIR$/src/main/java/Utilities/test.html" />
         <option value="$PROJECT_DIR$/src/main/java/Controller/QueryWindowController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Utilities/Crawler.java" />
         <option value="$PROJECT_DIR$/src/main/java/Controller/AppController.java" />
         <option value="$PROJECT_DIR$/src/main/java/Utilities/Formater.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Utilities/Crawler.java" />
         <option value="$PROJECT_DIR$/src/test/java/RegexpCreatorTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/Utilities/Parser.java" />
       </list>
@@ -670,7 +664,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Run">
+  <component name="RunManager" selected="JUnit.RegexpCreatorTest.creatorTest">
     <configuration name="Run" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Run" />
       <module name="WebCrawler_main" />
@@ -729,10 +723,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Run" />
         <item itemvalue="JUnit.RegexpCreatorTest.creatorTest" />
-        <item itemvalue="JUnit.RegexpCreatorTest.parserTest" />
         <item itemvalue="JUnit.RegexpCreatorTest.matchingTest" />
+        <item itemvalue="Application.Run" />
+        <item itemvalue="JUnit.RegexpCreatorTest.parserTest" />
         <item itemvalue="JUnit.RegexpCreatorTest" />
       </list>
     </recent_temporary>
@@ -755,7 +749,7 @@
       <workItem from="1543063451051" duration="4042000" />
       <workItem from="1543072596130" duration="3081000" />
       <workItem from="1543082645872" duration="722000" />
-      <workItem from="1543251733851" duration="11189000" />
+      <workItem from="1543251733851" duration="12444000" />
     </task>
     <task id="LOCAL-00001" summary="Changed Deep and Subdomains TextFields to Spinner and ChoiceBox and added little control of input.">
       <created>1543005530676</created>
@@ -771,43 +765,50 @@
       <option name="project" value="LOCAL" />
       <updated>1543067410089</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added first version of Crawler.">
+      <created>1543266509753</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1543266509753</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="RegexpCreatorTest_parserTest - 2018.11.26 at 21h 16m 31s.xml">
-      <configuration name="RegexpCreatorTest.parserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RegexpCreatorTest_parserTest - 2018.11.26 at 21h 16m 49s.xml">
-      <configuration name="RegexpCreatorTest.parserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RegexpCreatorTest_parserTest - 2018.11.26 at 21h 17m 18s.xml">
-      <configuration name="RegexpCreatorTest.parserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RegexpCreatorTest_parserTest - 2018.11.26 at 21h 19m 41s.xml">
-      <configuration name="RegexpCreatorTest.parserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RegexpCreatorTest_parserTest - 2018.11.26 at 21h 49m 00s.xml">
-      <configuration name="RegexpCreatorTest.parserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RegexpCreatorTest_parserTest - 2018.11.26 at 21h 49m 18s.xml">
-      <configuration name="RegexpCreatorTest.parserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RegexpCreatorTest_parserTest - 2018.11.26 at 21h 50m 01s.xml">
-      <configuration name="RegexpCreatorTest.parserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RegexpCreatorTest_parserTest - 2018.11.26 at 21h 58m 39s.xml">
-      <configuration name="RegexpCreatorTest.parserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RegexpCreatorTest_creatorTest - 2018.11.26 at 22h 03m 40s.xml">
+    <history-entry file="RegexpCreatorTest_creatorTest - 2018.11.26 at 22h 18m 55s.xml">
       <configuration name="RegexpCreatorTest.creatorTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="RegexpCreatorTest_creatorTest - 2018.11.26 at 22h 05m 22s.xml">
+    <history-entry file="RegexpCreatorTest_creatorTest - 2018.11.26 at 22h 19m 02s.xml">
+      <configuration name="RegexpCreatorTest.creatorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexpCreatorTest_creatorTest - 2018.11.26 at 22h 19m 17s.xml">
+      <configuration name="RegexpCreatorTest.creatorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexpCreatorTest_creatorTest - 2018.11.26 at 22h 19m 24s.xml">
+      <configuration name="RegexpCreatorTest.creatorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexpCreatorTest_matchingTest - 2018.11.26 at 22h 20m 20s.xml">
+      <configuration name="RegexpCreatorTest.matchingTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexpCreatorTest_matchingTest - 2018.11.26 at 22h 20m 27s.xml">
+      <configuration name="RegexpCreatorTest.matchingTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexpCreatorTest_matchingTest - 2018.11.26 at 22h 21m 19s.xml">
+      <configuration name="RegexpCreatorTest.matchingTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexpCreatorTest_creatorTest - 2018.11.26 at 22h 21m 24s.xml">
+      <configuration name="RegexpCreatorTest.creatorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexpCreatorTest_creatorTest - 2018.11.26 at 22h 21m 53s.xml">
+      <configuration name="RegexpCreatorTest.creatorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RegexpCreatorTest_creatorTest - 2018.11.26 at 22h 22m 26s.xml">
       <configuration name="RegexpCreatorTest.creatorTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28446000" />
+    <option name="totallyTimeSpent" value="29701000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -819,7 +820,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
+    <frame x="67" y="25" width="1853" height="1055" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20641948" />
@@ -829,7 +830,7 @@
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32972974" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33405405" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.27567568" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -893,7 +894,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Changed Deep and Subdomains TextFields to Spinner and ChoiceBox and added little control of input." />
     <MESSAGE value="Added &quot;test&quot; catalog" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added &quot;test&quot; catalog" />
+    <MESSAGE value="Added first version of Crawler." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added first version of Crawler." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/Model/Page.java" />
@@ -970,13 +972,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Controller/QueryWindowController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="62" column="64" lean-forward="true" selection-start-line="62" selection-start-column="64" selection-end-line="62" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Controller/MainWindowController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="661">
@@ -984,13 +979,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Utilities/Crawler.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/RegexpCreatorTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="28" column="53" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
+        <state relative-caret-position="-90">
+          <caret line="43" column="56" lean-forward="true" selection-start-line="43" selection-start-column="56" selection-end-line="43" selection-end-column="56" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Utilities/Parser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="732">
+          <caret line="58" column="25" lean-forward="true" selection-start-line="58" selection-start-column="25" selection-end-line="58" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Utilities/Formater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Controller/QueryWindowController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="62" column="64" lean-forward="true" selection-start-line="62" selection-start-column="64" selection-end-line="62" selection-end-column="64" />
         </state>
       </provider>
     </entry>
@@ -1009,8 +1028,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Controller/AppController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
-          <caret line="48" column="64" selection-start-line="48" selection-start-column="57" selection-end-line="48" selection-end-column="64" />
+        <state relative-caret-position="330">
+          <caret line="80" column="53" selection-start-line="80" selection-start-column="53" selection-end-line="80" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#572#573#0" expanded="true" />
@@ -1021,30 +1040,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/RegexpCreatorTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Utilities/Crawler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="50" column="38" lean-forward="true" selection-start-line="50" selection-start-column="38" selection-end-line="50" selection-end-column="38" />
+        <state relative-caret-position="414">
+          <caret line="23" column="25" lean-forward="true" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Utilities/Formater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="19" column="72" lean-forward="true" selection-start-line="19" selection-start-column="72" selection-end-line="19" selection-end-column="72" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Utilities/Parser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="64" column="40" selection-start-line="64" selection-start-column="40" selection-end-line="64" selection-end-column="40" />
         </state>
       </provider>
     </entry>

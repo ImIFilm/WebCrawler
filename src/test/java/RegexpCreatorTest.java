@@ -50,6 +50,9 @@ public class RegexpCreatorTest {
         RegexpCreator r11 =new RegexpCreator("ala**pięs", "kot");
         assertEquals(r11.getValid(),false);
 
+        RegexpCreator r12 =new RegexpCreator("kielce", "");
+        assertEquals(r12.getValid(),true);
+
     }
 
     @Test
@@ -57,6 +60,11 @@ public class RegexpCreatorTest {
         Pattern pattern = Pattern.compile("^(?!(.*pies)).*(ala)");
         Matcher matcher = pattern.matcher("ala ma pies");
         assertEquals(matcher.find(),false);
+
+        pattern = Pattern.compile("^(?!(.*)).*(kielce)");
+        matcher = pattern.matcher("lol kielce lol");
+        assertEquals(matcher.find(),true);
+
     }
 
     @Test
