@@ -18,11 +18,14 @@ public class RegexpCreator {
         StringBuilder strBuilder = new StringBuilder();
 
         //append forbidden words
-        strBuilder.append("^(?!(");
-        for(int i = 0; i < forbiddenWords.size() - 1; i++)
-            strBuilder.append(String.format(".*%s|", forbiddenWords.get(i)));
+        if(!forbidden_words.isEmpty()) {
+            strBuilder.append("^(?!(");
+            for (int i = 0; i < forbiddenWords.size() - 1; i++)
+                strBuilder.append(String.format(".*%s|", forbiddenWords.get(i)));
 
-        strBuilder.append(String.format(".*%s)).*(", forbiddenWords.get(forbiddenWords.size() - 1)));
+            strBuilder.append(String.format(".*%s)).*", forbiddenWords.get(forbiddenWords.size() - 1)));
+        }
+        strBuilder.append("(");
 
         String divider = "([a-zA-Z\\p{L}]+)([\\*\\,\\s]*)";
         Pattern pattern = Pattern.compile(divider);
