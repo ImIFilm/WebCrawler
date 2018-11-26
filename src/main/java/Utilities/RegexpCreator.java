@@ -24,7 +24,7 @@ public class RegexpCreator {
 
         strBuilder.append(String.format(".*%s)).*(", forbiddenWords.get(forbiddenWords.size() - 1)));
 
-        String divider = "([a-zA-Z]+)([\\*\\,\\s]*)";
+        String divider = "([a-zA-Z\\p{L}]+)([\\*\\,\\s]*)";
         Pattern pattern = Pattern.compile(divider);
         Matcher matcher = pattern.matcher(sentence);
         boolean first = true;
@@ -55,8 +55,9 @@ public class RegexpCreator {
     public boolean getValid(){
         return valid;
     }
+
     private boolean validateInput(String sentence, String forbidden){
-        String inputValidator = "^[a-zA-Z]+([\\*\\,\\s]+[a-zA-Z]+)*\\s*$";
+        String inputValidator = "^[a-zA-Z\\p{L}]+([\\*\\,\\s]+[a-zA-Z\\p{L}]+)*\\s*$";
         String forbidValidator = "^[a-zA-Z\\,\\s\\p{L}]*$";
         ArrayList<String> sentenceList = new ArrayList<>(Arrays.asList(sentence.split("[\\s\\,\\*]+")));
         ArrayList<String> forbidList = new ArrayList<>(Arrays.asList(forbidden.split("[\\s\\,]+")));
