@@ -76,7 +76,7 @@ public class MainWindowController {
     @FXML
     private void handleStartAction(ActionEvent event) {
 
-        System.out.println("Started WebCrawling!!");
+        appController.startWebCrawling();
     }
 
     public void setAppController(AppController appController) {

@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Query;
+import Utilities.Crawler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -44,8 +45,8 @@ public class AppController {
             //test values
             queries = FXCollections.observableArrayList();
             urlPerSentences = FXCollections.observableArrayList();
-            urlPerSentences.add(new UrlPerSentence("onet","ala ma kota"));
-            queries.add(new Query("onet","ala * kot","pies",1,true));
+//            urlPerSentences.add(new UrlPerSentence("http://onet.pl/","ala ma kota"));
+            queries.add(new Query("https://www.onet.pl","zamknij","",1,true));
 
             controller.setTableViews(urlPerSentences,queries);
             // add layout to a scene and show them all
@@ -99,5 +100,11 @@ public class AppController {
         queries.add(new Query(url,sentencePattern,forbiddenWords,deep,ifMine));
     }
 
+    public void startWebCrawling(){
+        System.out.println("Started WebCrawling!!");
 
+        Crawler crawler = new Crawler(queries,urlPerSentences);
+        crawler.startCrawling();
+
+    }
 }

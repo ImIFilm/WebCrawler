@@ -2,7 +2,7 @@ package Controller;
 
 import javafx.beans.property.SimpleStringProperty;
 
-class UrlPerSentence{
+public class UrlPerSentence{
     private SimpleStringProperty sentence;
     private SimpleStringProperty url;
     public UrlPerSentence(SimpleStringProperty url, SimpleStringProperty sentence){

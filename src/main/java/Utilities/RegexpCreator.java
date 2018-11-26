@@ -1,3 +1,5 @@
+package Utilities;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,6 +52,9 @@ public class RegexpCreator {
         return searchExpr;
     }
 
+    public boolean getValid(){
+        return valid;
+    }
     private boolean validateInput(String sentence, String forbidden){
         String inputValidator = "^[a-zA-Z]+([\\*\\,\\s]+[a-zA-Z]+)*\\s*$";
         String forbidValidator = "^[a-zA-Z\\,\\s\\p{L}]*$";

@@ -49,24 +49,24 @@ public class QueryWindowController {
 
     @FXML
     private void handleOk(ActionEvent event) {
-
-        if(urlTextField.getText().isEmpty()){
+        urlTextField.getText();
+        if(urlTextField.getText().isEmpty() || queryTextField.getText().isEmpty()){
             System.out.println("Jest pusty url");
             FXMLLoader loader = new FXMLLoader();
             try {
-            loader.setLocation(new File("src/main/java/View/WarningWindow.fxml").toURL());
+                loader.setLocation(new File("src/main/java/View/WarningWindow.fxml").toURL());
 
                 BorderPane page = (BorderPane) loader.load();
-            QueryWindowController controller = loader.getController();
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Warning");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(appController.getDialogStage());
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
+                QueryWindowController controller = loader.getController();
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Warning");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(appController.getDialogStage());
+                Scene scene = new Scene(page);
+                dialogStage.setScene(scene);
 
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
+                // Show the dialog and wait until the user closes it
+                dialogStage.showAndWait();
             }catch (IOException e){
                 e.printStackTrace();
             }
