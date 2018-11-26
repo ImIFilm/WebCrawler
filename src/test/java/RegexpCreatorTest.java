@@ -48,7 +48,7 @@ public class RegexpCreatorTest {
         assertEquals(r10.getValid(),true);
 
         RegexpCreator r11 =new RegexpCreator("ala**pięs", "kot");
-        assertEquals(r11.getValid(),false);
+        assertEquals(r11.getValid(),true);
 
         RegexpCreator r12 =new RegexpCreator("kielce", "");
         assertEquals(r12.getValid(),true);
@@ -63,7 +63,7 @@ public class RegexpCreatorTest {
 
         pattern = Pattern.compile("^(?!(.*)).*(kielce)");
         matcher = pattern.matcher("lol kielce lol");
-        assertEquals(matcher.find(),true);
+        assertEquals(matcher.find(),false);
 
     }
 

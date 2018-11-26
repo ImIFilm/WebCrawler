@@ -33,9 +33,9 @@ public class Parser{
     public void showLinks(int howMany){
         Document doc = null;
         try {
-//            doc = Jsoup.connect(where).get();
-            File input = new File("test.html");
-            doc = Jsoup.parse(input, "UTF-8");
+            doc = Jsoup.connect(where).get();
+//            File input = new File("test.html");
+//            doc = Jsoup.parse(input, "UTF-8");
             Elements links = doc.select("a[href]");
             Element link;
 
@@ -77,9 +77,7 @@ public class Parser{
         try {
             File input = new File(fileName);
             doc = Jsoup.parse(input, "UTF-8");
-//            String lookFor = String.format("div:contains(%s)", " ");
             Elements links = doc.select("div");
-//            Elements links = doc.select(lookFor);
             Element link;
 
             for(int j=0;j<howMany;j++){

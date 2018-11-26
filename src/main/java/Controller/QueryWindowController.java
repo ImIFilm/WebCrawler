@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class QueryWindowController {
     private AppController appController;
@@ -48,14 +50,16 @@ public class QueryWindowController {
     }
 
     @FXML
-    private void handleOk(ActionEvent event) {
-        urlTextField.getText();
-        if(urlTextField.getText().isEmpty() || queryTextField.getText().isEmpty()){
+    private void handleAdd(ActionEvent event) {
+        Pattern pattern = Pattern.compile("^http[s]?:\\/{2}(www\\.)?\\w+(\\.\\w+)+(\\/\\S*)*$");
+        Matcher matcher1 = pattern.matcher(urlTextField.getText());
+        String url = "http://" + urlTextField.getText();
+        Matcher matcher2 = pattern.matcher(url);
+        if(urlTextField.getText().isEmpty() || queryTextField.getText().isEmpty() || (!matcher1.find() && !matcher2.find())){
             System.out.println("Jest pusty url");
             FXMLLoader loader = new FXMLLoader();
             try {
                 loader.setLocation(new File("src/main/java/View/WarningWindow.fxml").toURL());
-
                 BorderPane page = (BorderPane) loader.load();
                 QueryWindowController controller = loader.getController();
                 Stage dialogStage = new Stage();
@@ -66,13 +70,16 @@ public class QueryWindowController {
                 dialogStage.setScene(scene);
 
                 // Show the dialog and wait until the user closes it
-                dialogStage.showAndWait();
+                dialogStage.show();
             }catch (IOException e){
                 e.printStackTrace();
             }
         }else {
+            if(matcher1.find()){
+                url = urlTextField.getText();
+            }
             appController.addQueryDialog(
-                    urlTextField.getText(),
+                    url,
                     queryTextField.getText(),
                     forbiddenWordsTextField.getText(),
                     Integer.decode(deepSpinner.getValue().toString()),

@@ -9,6 +9,8 @@ public class RegexpCreator {
     private boolean valid = true;
 
     public RegexpCreator(String sentence, String forbidden_words){
+        sentence = sentence.toLowerCase();
+        forbidden_words = forbidden_words.toLowerCase();
         if(!validateInput(sentence, forbidden_words)){
             valid = false;
             return;
