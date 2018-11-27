@@ -1,0 +1,6 @@
+# Compiled source #
+###################
+*.class
+
+
+.idea/workspace.xml

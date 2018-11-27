@@ -56,7 +56,7 @@ public class RegexpCreatorTest {
     }
 
     @Test
-    public void matchingTest(){
+    public void createdRegexpTest(){
         Pattern pattern = Pattern.compile("^(?!(.*pies)).*(ala)");
         Matcher matcher = pattern.matcher("ala ma pies");
         assertEquals(matcher.find(),false);
@@ -65,15 +65,6 @@ public class RegexpCreatorTest {
         matcher = pattern.matcher("lol kielce lol");
         assertEquals(matcher.find(),false);
 
-    }
-
-    @Test
-    public void parserTest() {
-        String fileName = "src/test/java/test.html";
-        int deep = 1;
-        Parser parser = new Parser("lololo", "^(?!(.*pies)).*(ala)");
-        List<String> results = parser.findWordsFromHtmlFile(fileName, deep);
-        assertEquals(results, Arrays.asList("Ladnego ala ma kota."));
     }
 
 }

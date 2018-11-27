@@ -18,7 +18,6 @@ public class Formater {
 
     // https://stackoverflow.com/questions/2687012/split-string-into-sentences
     public List<String> showOnlySentenceWithWord (String patternString){
-        System.out.println(sentence);
         BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.US);
         String source = sentence;
         iterator.setText(source);
@@ -30,7 +29,7 @@ public class Formater {
             now=source.substring(start,end).toLowerCase();
             Matcher matcher = pattern.matcher(now);
             if (matcher.find()) {
-                System.out.println("matched");
+//                System.out.println("matched");
                 result.add(source.substring(start, end));
             }
         }

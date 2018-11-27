@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import javax.print.Doc;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,9 +53,31 @@ public class Parser{
     }
 
     public List<String> findWords(int howMany){
-        Document doc = null;
         try {
-            doc = Jsoup.connect(where).get();
+            Document doc = Jsoup.connect(where).get();
+            return findWordsFromHtmlDoc(doc,howMany);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IndexOutOfBoundsException e){
+            System.out.println("\nnie ma tyle linków, ile kazałeś pokazać");
+        }
+        return new ArrayList<>();
+    }
+
+    public List<String> findWordsFromHtmlFile(String fileName, int howMany) {
+        try {
+            File input = new File(fileName);
+            Document doc = Jsoup.parse(input, "UTF-8");
+            return findWordsFromHtmlDoc(doc,howMany);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+
+    private List<String> findWordsFromHtmlDoc(Document doc, int howMany){
+        try {
             Elements links = doc.select("div");
             Element link;
             List<String> newest = new ArrayList<>();
@@ -64,30 +87,6 @@ public class Parser{
                 newest.addAll(sentence.showOnlySentenceWithWord(what));
             }
             return newest;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IndexOutOfBoundsException e){
-            System.out.println("\nnie ma tyle linków, ile kazałeś pokazać");
-        }
-        return new ArrayList<>();
-    }
-
-    public List<String> findWordsFromHtmlFile(String fileName, int howMany){
-        Document doc = null;
-        try {
-            File input = new File(fileName);
-            doc = Jsoup.parse(input, "UTF-8");
-            Elements links = doc.select("div");
-            Element link;
-
-            for(int j=0;j<howMany;j++){
-                link=links.get(j);
-                Formater sentence = new Formater(link.text());
-                List<String> newest = sentence.showOnlySentenceWithWord(what);
-                return newest;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (IndexOutOfBoundsException e){
             System.out.println("\nnie ma tyle linków, ile kazałeś pokazać");
         }

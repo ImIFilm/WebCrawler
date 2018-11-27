@@ -104,6 +104,8 @@ public class AppController {
         System.out.println("Started WebCrawling!!");
 
         Crawler crawler = new Crawler(queries,urlPerSentences);
+//        Thread thread = new Thread(crawler);
+//        thread.run();
         crawler.startCrawling();
 
     }

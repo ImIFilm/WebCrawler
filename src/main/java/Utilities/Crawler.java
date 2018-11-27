@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class Crawler {
+public class Crawler{
     private ObservableList<Query> queries;
     private ObservableList<UrlPerSentence> urlPerSentences;
 
