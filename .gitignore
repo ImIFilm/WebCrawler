@@ -1,6 +1,6 @@
 # Compiled source #
 ###################
 *.class
-
+out/
 
 .idea/workspace.xml

@@ -3,6 +3,7 @@ package Utilities;
 import Controller.UrlPerSentence;
 import Model.Query;
 import javafx.collections.ObservableList;
+import org.jsoup.select.Elements;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class Crawler{
         this.urlPerSentences = urlPerSentences;
     }
 
-    public void startCrawling(){
+    public void startCrawling() {
         for(Query query: queries){
             System.out.println(query.getUrl());
             RegexpCreator regexp = new RegexpCreator(query.getSentencePattern(),query.getForbiddenWords());
@@ -25,10 +26,21 @@ public class Crawler{
             }
             System.out.println(regexp.getSearchExpr());
             query.setRegexp(regexp.getSearchExpr());
-            Parser parser = new Parser(query.getUrl(),query.getRegexp());
-            List<String> results = parser.findWords(2);
-            for(String result: results){
-                urlPerSentences.add(new UrlPerSentence(query.getUrl(),result));
+
+            HtmlParser htmlParser = new HtmlParser(query.getUrl());
+            Elements downloadedWebsite;
+            downloadedWebsite=htmlParser.parseToText();
+            TextParser textParser = new TextParser(downloadedWebsite);
+            List<String> allSentences = null;
+            allSentences =textParser.makeSentences();
+            SentencePattern pattern = new SentencePattern (query.getRegexp());
+
+
+            for(String sentence: allSentences){
+                if (pattern.ifMatch(sentence)){
+                    urlPerSentences.add(new UrlPerSentence(query.getUrl(),sentence));
+                }
+
             }
             System.out.println("Stoped crawling");
         }

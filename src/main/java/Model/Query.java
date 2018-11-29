@@ -1,8 +1,6 @@
 package Model;
 
-
 public class Query {
-
     private String url;
     private String sentencePattern;
     private String forbiddenWords;
@@ -28,23 +26,18 @@ public class Query {
     public String getSentencePattern() {
         return sentencePattern;
     }
-
     public String getForbiddenWords(){
         return forbiddenWords;
     }
-
     public int getDeep(){
         return deep;
     }
-
     public boolean getSubdomains(){
         return subdomains;
     }
-
     public String getRegexp(){
         return regexp;
     }
-
     public void setRegexp(String regexp){
         this.regexp = regexp;
     }

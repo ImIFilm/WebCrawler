@@ -100,7 +100,7 @@ public class AppController {
         queries.add(new Query(url,sentencePattern,forbiddenWords,deep,ifMine));
     }
 
-    public void startWebCrawling(){
+    public void startWebCrawling() {
         System.out.println("Started WebCrawling!!");
 
         Crawler crawler = new Crawler(queries,urlPerSentences);

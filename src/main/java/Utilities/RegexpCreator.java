@@ -69,7 +69,6 @@ public class RegexpCreator {
         sentenceList.retainAll(forbidList);
         return sentence.matches(inputValidator) && forbidden.matches(forbidValidator) && sentenceList.isEmpty();
     }
-
     private String getAnyWordPattern(int count){
         return String.format("([a-zA-Z\\p{L}]+ ){%d}", count);
     }
