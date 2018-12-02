@@ -46,7 +46,7 @@ public class AppController {
             queries = FXCollections.observableArrayList();
             urlPerSentences = FXCollections.observableArrayList();
 //            urlPerSentences.add(new UrlPerSentence("http://onet.pl/","ala ma kota"));
-            queries.add(new Query("http://onet.pl/","Kielce","",1,true));
+            queries.add(new Query("https://pl.wikipedia.org/wiki/Symulowane_wy%C5%BCarzanie","Algorytm","",1,true));
 
             controller.setTableViews(urlPerSentences,queries);
             // add layout to a scene and show them all
@@ -100,13 +100,25 @@ public class AppController {
         queries.add(new Query(url,sentencePattern,forbiddenWords,deep,ifMine));
     }
 
+    public ObservableList<Query> getQueries(){
+        return queries;
+    }
+
+    public void addResult(String url,String sentence){
+        urlPerSentences.add(new UrlPerSentence(url,sentence));
+    }
     public void startWebCrawling() {
         System.out.println("Started WebCrawling!!");
 
-        Crawler crawler = new Crawler(queries,urlPerSentences);
-//        Thread thread = new Thread(crawler);
-//        thread.run();
-        crawler.startCrawling();
+        Crawler crawler = new Crawler(this);
+        Thread thread = new Thread(crawler);
+        thread.start();
+//        try {
+//            thread.join();
+//        }catch (InterruptedException e){
+//            e.printStackTrace();
+        }
+//        crawler.startCrawling();
 
-    }
+//    }
 }

@@ -1,48 +1,87 @@
 package Utilities;
 
+import Controller.AppController;
 import Controller.UrlPerSentence;
 import Model.Query;
 import javafx.collections.ObservableList;
+import javafx.util.Pair;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.List;
+import java.util.*;
 
-public class Crawler{
-    private ObservableList<Query> queries;
-    private ObservableList<UrlPerSentence> urlPerSentences;
+public class Crawler implements Runnable{
 
-    public Crawler(ObservableList<Query> queries,
-                   ObservableList<UrlPerSentence> urlPerSentences){
-        this.queries = queries;
-        this.urlPerSentences = urlPerSentences;
+    private AppController appController;
+    private Map<String, Pair<HtmlParser,TextParser>> webPages = new HashMap<>();
+    private Set<String> visitedUrls = new HashSet<>();
+    public Crawler(AppController appController){
+        this.appController = appController;
     }
 
-    public void startCrawling() {
-        for(Query query: queries){
+    @Override
+    public void run() {
+        startCrawling();
+    }
+
+    private void startCrawling() {
+        for(Query query: appController.getQueries()){
             System.out.println(query.getUrl());
             RegexpCreator regexp = new RegexpCreator(query.getSentencePattern(),query.getForbiddenWords());
             if(!regexp.getValid()){
                 continue;
             }
-            System.out.println(regexp.getSearchExpr());
             query.setRegexp(regexp.getSearchExpr());
-
-            HtmlParser htmlParser = new HtmlParser(query.getUrl());
-            Elements downloadedWebsite;
-            downloadedWebsite=htmlParser.parseToText();
-            TextParser textParser = new TextParser(downloadedWebsite);
-            List<String> allSentences = null;
-            allSentences =textParser.makeSentences();
-            SentencePattern pattern = new SentencePattern (query.getRegexp());
+            evalQuery(query);
+            visitedUrls = new HashSet<>();
+        }
+        System.out.println("Stoped crawling");
+    }
 
 
-            for(String sentence: allSentences){
-                if (pattern.ifMatch(sentence)){
-                    urlPerSentences.add(new UrlPerSentence(query.getUrl(),sentence));
+    private void evalQuery(Query query){
+        HtmlParser htmlParser;
+        TextParser textParser;
+        if(!webPages.containsKey(query.getUrl())){
+            htmlParser = new HtmlParser(query.getUrl());
+            Elements downloadedWebsite = htmlParser.parseToText();
+            textParser = new TextParser(downloadedWebsite);
+            webPages.put(query.getUrl(),new Pair(htmlParser,textParser));
+        }
+        else{
+            Pair<HtmlParser,TextParser> pair = webPages.get(query.getUrl());
+            htmlParser = pair.getKey();
+            textParser = pair.getValue();
+        }
+        List<String> matchedSentences = findMatchedSentences(query,textParser.getSentences());
+        for(String matchedSentence: matchedSentences){
+            appController.addResult(query.getUrl(),matchedSentence);
+        }
+        System.out.println("Actual deep = " + query.getDeep());
+        if(query.getDeep() != 0) {
+            List<String> linksInUrl = htmlParser.getLinksList();
+            for (String linkInUrl : linksInUrl) {
+                if (!visitedUrls.contains(linkInUrl)) {
+                    System.out.println(linkInUrl);
+                    visitedUrls.add(linkInUrl);
+                    Query tmp = new Query(linkInUrl, "", "", query.getDeep() - 1, query.getSubdomains());
+                    tmp.setRegexp(query.getRegexp());
+                    evalQuery(tmp);
                 }
-
             }
-            System.out.println("Stoped crawling");
         }
     }
+
+    private List<String> findMatchedSentences(Query query, List<String> sentences){
+        SentencePattern pattern = new SentencePattern (query.getRegexp());
+        List<String> matchedSentences = new ArrayList<>();
+        for(String sentence: sentences) {
+            if(pattern.ifMatch(sentence)){
+                matchedSentences.add(sentence);
+            }
+        }
+        return matchedSentences;
+    }
+
+
 }

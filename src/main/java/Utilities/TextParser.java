@@ -1,8 +1,9 @@
 package Utilities;
 //import com.sun.deploy.util.StringUtils;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import javax.xml.bind.Element;
+//import javax.xml.bind.Element;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,17 +11,17 @@ import java.util.Locale;
 
 
 public class TextParser {
-    Elements whatIsInWebsite;
 
-    public TextParser (Elements all){
-        whatIsInWebsite=all;
+    private ArrayList<String> sentences;
+    public TextParser (Elements whatIsInWebsite){
+        this.sentences = makeSentences(whatIsInWebsite);
     }
 
-    public ArrayList<String> makeSentences(){
+    private ArrayList<String> makeSentences(Elements whatIsInWebsite){
         String div;
         ArrayList<String> newest = new ArrayList<>();
-        for(int j=0;j<whatIsInWebsite.size();j++){
-            div=whatIsInWebsite.get(j).text();
+        for(Element element: whatIsInWebsite){
+            div=element.text();
             BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.US);
             iterator.setText(div);
             List<String> result = new ArrayList<>();
@@ -31,5 +32,9 @@ public class TextParser {
             newest.addAll(result);
         }
         return newest;
+    }
+
+    public ArrayList<String> getSentences(){
+        return sentences;
     }
 }
