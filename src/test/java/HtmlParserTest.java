@@ -40,5 +40,7 @@ public class HtmlParserTest {
         assertEquals(linksInHtmlFile,Arrays.asList("http://deep1.html/"));
         assertEquals(textParser2.getSentences(),
                 Arrays.asList("Pies i ala ma kota. ", "Ladna dzis pogoda. ", "Ladnego ala ma kota. ", "Ala i ladny pies."));
+
+
     }
 }

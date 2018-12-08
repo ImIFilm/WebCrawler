@@ -5,71 +5,49 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegexpCreator {
-    private String searchExpr = null;
-    private boolean valid = true;
-
-    public RegexpCreator(String sentence, String forbidden_words){
+    public static String getSearchExpr(String sentence){
         sentence = sentence.toLowerCase();
-        forbidden_words = forbidden_words.toLowerCase();
-        if(!validateInput(sentence, forbidden_words)){
-            valid = false;
-            return;
+        if(isEmpty(sentence))
+            return "";
+        if(!validateInput(sentence)){
+            throw new IllegalArgumentException();
         }
-        ArrayList<String> forbiddenWords = new ArrayList<>(Arrays.asList(forbidden_words.split("[\\s\\,]+")));
 
         StringBuilder strBuilder = new StringBuilder();
-
-        //append forbidden words
-        if(!forbidden_words.isEmpty()) {
-            strBuilder.append("^(?!(");
-            for (int i = 0; i < forbiddenWords.size() - 1; i++)
-                strBuilder.append(String.format(".*%s|", forbiddenWords.get(i)));
-
-            strBuilder.append(String.format(".*%s)).*", forbiddenWords.get(forbiddenWords.size() - 1)));
-        }
-        strBuilder.append("(");
 
         String divider = "([a-zA-Z\\p{L}]+)([\\*\\,\\s]*)";
         Pattern pattern = Pattern.compile(divider);
         Matcher matcher = pattern.matcher(sentence);
-        boolean first = true;
+        boolean first_match = true;
         while(matcher.find()){
             String word = matcher.group(1);
             String rest = matcher.group(2);
             int starCount = (int)rest.chars().filter(c -> c == '*').count();
             if(starCount > 0){
-                if(first)
+                if(first_match)
                     word = word.concat(" ");
                 strBuilder.append(word).append(getAnyWordPattern(starCount));
             }
             else{
                 strBuilder.append(word).append(" ");
             }
-            first = false;
+            first_match = false;
         }
-        strBuilder.deleteCharAt(strBuilder.length() - 1).append(")");
+        strBuilder.deleteCharAt(strBuilder.length() - 1);
 
-        this.searchExpr = strBuilder.toString();
-        System.out.println(this.searchExpr);
+        return strBuilder.toString();
     }
 
-    public String getSearchExpr(){
-        return searchExpr;
-    }
-
-    public boolean getValid(){
-        return valid;
-    }
-
-    private boolean validateInput(String sentence, String forbidden){
+    private static boolean validateInput(String sentence){
         String inputValidator = "^[a-zA-Z\\p{L}]+([\\*\\,\\s]+[a-zA-Z\\p{L}]+)*\\s*$";
-        String forbidValidator = "^[a-zA-Z\\,\\s\\p{L}]*$";
-        ArrayList<String> sentenceList = new ArrayList<>(Arrays.asList(sentence.split("[\\s\\,\\*]+")));
-        ArrayList<String> forbidList = new ArrayList<>(Arrays.asList(forbidden.split("[\\s\\,]+")));
-        sentenceList.retainAll(forbidList);
-        return sentence.matches(inputValidator) && forbidden.matches(forbidValidator) && sentenceList.isEmpty();
+        return sentence.matches(inputValidator);
     }
-    private String getAnyWordPattern(int count){
+
+    private static boolean isEmpty(String sentence){
+        return sentence.matches("\\s*");
+    }
+
+    private static String getAnyWordPattern(int count){
         return String.format("([a-zA-Z\\p{L}]+ ){%d}", count);
     }
 }

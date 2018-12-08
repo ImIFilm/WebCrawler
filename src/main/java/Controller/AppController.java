@@ -46,7 +46,7 @@ public class AppController {
             queries = FXCollections.observableArrayList();
             urlPerSentences = FXCollections.observableArrayList();
 //            urlPerSentences.add(new UrlPerSentence("http://onet.pl/","ala ma kota"));
-            queries.add(new Query("https://pl.wikipedia.org/wiki/Symulowane_wy%C5%BCarzanie","Algorytm","",1,true));
+            queries.add(new Query("https://onet.pl","zagraj","",0,true));
 
             controller.setTableViews(urlPerSentences,queries);
             // add layout to a scene and show them all

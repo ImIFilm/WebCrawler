@@ -62,8 +62,8 @@ public class MainWindowController {
         sentenceColumn.setCellValueFactory(dataValue -> dataValue.getValue().getSentence());
 
         queryUrlColumn.setCellValueFactory(dataValue -> new SimpleStringProperty(dataValue.getValue().getUrl()));
-        sentencePatternColumn.setCellValueFactory(dataValue -> new SimpleStringProperty(dataValue.getValue().getSentencePattern()));
-        forbiddenWordsColumn.setCellValueFactory(dataValue -> new SimpleStringProperty(dataValue.getValue().getForbiddenWords()));
+        sentencePatternColumn.setCellValueFactory(dataValue -> new SimpleStringProperty(dataValue.getValue().getSentencePatternString()));
+        forbiddenWordsColumn.setCellValueFactory(dataValue -> new SimpleStringProperty(dataValue.getValue().getForbiddenPatternString()));
         deepColumn.setCellValueFactory(dataValue -> new SimpleObjectProperty<>(dataValue.getValue().getDeep()));
         subdomainsColumn.setCellValueFactory(dataValue -> new SimpleObjectProperty<>(dataValue.getValue().getSubdomains()));
     }

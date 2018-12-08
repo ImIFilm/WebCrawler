@@ -2,6 +2,7 @@
 
 import static org.junit.Assert.assertEquals;
 
+import Utilities.SearchPattern;
 import org.junit.Test;
 
 import java.util.regex.Matcher;
@@ -11,6 +12,8 @@ public class RegexpCreatorTest {
     @Test
     public void creatorTest() throws Exception{
 
+        SearchPattern searchPattern = new SearchPattern("");
+        assertEquals(false,searchPattern.matches("siema"));
        /* RegexpCreator r1 =new RegexpCreator("ala/.llj", "kot");
         assertEquals(r1.getValid(),false);
 
