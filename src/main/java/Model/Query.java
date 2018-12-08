@@ -1,33 +1,36 @@
 package Model;
 
+import Utilities.RegexpCreator;
+import Utilities.SearchPattern;
+
 public class Query {
     private String url;
-    private String sentencePattern;
-    private String forbiddenWords;
-    private String regexp = null;
+    private SearchPattern sentencePattern;
+    private SearchPattern forbiddenPattern;
     private Integer deep;
     private boolean subdomains;
 
     public Query(String url,
-                 String sentencePattern,
+                 String sentence,
                  String forbiddenWords,
                  int deep,
                  boolean subdomains){
         this.url = url;
-        this.sentencePattern = sentencePattern;
-        this.forbiddenWords = forbiddenWords;
         this.deep = deep;
         this.subdomains = subdomains;
+
+        this.sentencePattern = new SearchPattern(RegexpCreator.getSearchExpr(sentence));
+        this.forbiddenPattern = new SearchPattern(RegexpCreator.getSearchExpr(forbiddenWords));
     }
 
     public String getUrl(){
         return url;
     }
-    public String getSentencePattern() {
+    public SearchPattern getSentencePattern() {
         return sentencePattern;
     }
-    public String getForbiddenWords(){
-        return forbiddenWords;
+    public SearchPattern getForbiddenWords(){
+        return forbiddenPattern;
     }
     public int getDeep(){
         return deep;
@@ -35,11 +38,9 @@ public class Query {
     public boolean getSubdomains(){
         return subdomains;
     }
-    public String getRegexp(){
-        return regexp;
-    }
-    public void setRegexp(String regexp){
-        this.regexp = regexp;
+
+    public boolean matches(String fullSentence){
+        return sentencePattern.matches(fullSentence) && !sentencePattern.matches(fullSentence);
     }
 }
 

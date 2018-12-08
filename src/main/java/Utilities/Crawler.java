@@ -33,11 +33,11 @@ public class Crawler{
             TextParser textParser = new TextParser(downloadedWebsite);
             List<String> allSentences = null;
             allSentences =textParser.makeSentences();
-            SentencePattern pattern = new SentencePattern (query.getRegexp());
+            SearchPattern pattern = new SearchPattern(query.getRegexp());
 
 
             for(String sentence: allSentences){
-                if (pattern.ifMatch(sentence)){
+                if (pattern.matches(sentence)){
                     urlPerSentences.add(new UrlPerSentence(query.getUrl(),sentence));
                 }
 
