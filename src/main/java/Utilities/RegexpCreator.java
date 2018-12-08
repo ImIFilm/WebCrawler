@@ -8,7 +8,7 @@ public class RegexpCreator {
     public static String getSearchExpr(String sentence){
         sentence = sentence.toLowerCase();
         if(isEmpty(sentence))
-            return "";
+            return "!";
         if(!validateInput(sentence)){
             throw new IllegalArgumentException();
         }

@@ -17,6 +17,9 @@ public class Query {
                  String forbiddenWords,
                  int deep,
                  boolean subdomains){
+        if(isEmpty(sentence) && isEmpty(forbiddenWords))
+            throw new IllegalArgumentException();
+
         this.url = url;
         this.deep = deep;
         this.subdomains = subdomains;
@@ -60,9 +63,13 @@ public class Query {
     public void setDeep(int deep){
         this.deep = deep;
     }
+
     public boolean matches(String fullSentence){
-//        return sentencePattern.matches(fullSentence) && !forbiddenPattern.matches(fullSentence);
-        return sentencePattern.matches(fullSentence);
+        return sentencePattern.matches(fullSentence) && !forbiddenPattern.matches(fullSentence);
+    }
+
+    private boolean isEmpty(String sentence){
+        return sentence.matches("\\s*");
     }
 }
 
