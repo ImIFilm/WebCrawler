@@ -44,7 +44,7 @@ public class RegexpCreator {
     }
 
     private static boolean isEmpty(String sentence){
-        return sentence.matches("\\s*");
+        return sentence.matches("^\\s*$");
     }
 
     private static String getAnyWordPattern(int count){

@@ -69,7 +69,7 @@ public class Query {
     }
 
     private boolean isEmpty(String sentence){
-        return sentence.matches("\\s*");
+        return sentence.matches("^\\s*$");
     }
 }
 
