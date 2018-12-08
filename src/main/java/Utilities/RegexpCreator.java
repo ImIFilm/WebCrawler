@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 public class RegexpCreator {
     public static String getSearchExpr(String sentence){
         sentence = sentence.toLowerCase();
+        if(isEmpty(sentence))
+            return "";
         if(!validateInput(sentence)){
             throw new IllegalArgumentException();
         }
@@ -40,6 +42,11 @@ public class RegexpCreator {
         String inputValidator = "^[a-zA-Z\\p{L}]+([\\*\\,\\s]+[a-zA-Z\\p{L}]+)*\\s*$";
         return sentence.matches(inputValidator);
     }
+
+    private static boolean isEmpty(String sentence){
+        return sentence.matches("\\s*");
+    }
+
     private static String getAnyWordPattern(int count){
         return String.format("([a-zA-Z\\p{L}]+ ){%d}", count);
     }

@@ -19,18 +19,13 @@ public class Crawler{
 
     public void startCrawling() {
         for(Query query: queries){
-            HtmlParser htmlParser = new HtmlParser(query.getUrl());
-            Elements downloadedWebsite;
-            downloadedWebsite=htmlParser.parseToText();
-            TextParser textParser = new TextParser(downloadedWebsite);
-            List<String> allSentences = null;
-            allSentences =textParser.makeSentences();
+            Elements downloadedWebsite = new HtmlParser(query.getUrl()).parseToText();
+            List<String> allSentences = new TextParser(downloadedWebsite).makeSentences();
 
             for(String sentence: allSentences){
                 if (query.matches(sentence)){
                     urlPerSentences.add(new UrlPerSentence(query.getUrl(),sentence));
                 }
-
             }
             System.out.println("Stoped crawling");
         }
