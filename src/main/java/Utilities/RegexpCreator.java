@@ -8,12 +8,13 @@ public class RegexpCreator {
     public static String getSearchExpr(String sentence){
         sentence = sentence.toLowerCase();
         if(isEmpty(sentence))
-            return "!";
+            return "(?!)";
         if(!validateInput(sentence)){
             throw new IllegalArgumentException();
         }
 
         StringBuilder strBuilder = new StringBuilder();
+        strBuilder.append("\\b");
 
         String divider = "([a-zA-Z\\p{L}]+)([\\*\\,\\s]*)";
         Pattern pattern = Pattern.compile(divider);
@@ -33,7 +34,7 @@ public class RegexpCreator {
             }
             first_match = false;
         }
-        strBuilder.deleteCharAt(strBuilder.length() - 1);
+        strBuilder.deleteCharAt(strBuilder.length() - 1).append("\\b");
 
         return strBuilder.toString();
     }
