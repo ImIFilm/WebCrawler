@@ -46,9 +46,9 @@ public class AppController {
             queries = FXCollections.observableArrayList();
             urlPerSentences = FXCollections.observableArrayList();
 //            urlPerSentences.add(new UrlPerSentence("http://onet.pl/","ala ma kota"));
-            queries.add(new Query("https://onet.pl","zagraj","",0,true));
+            queries.add(new Query("http://galaxy.agh.edu.pl/~kzajac/dydakt/tw/index.html", "jezyk", "", 1, true));
 
-            controller.setTableViews(urlPerSentences,queries);
+            controller.setTableViews(urlPerSentences, queries);
             // add layout to a scene and show them all
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
@@ -87,7 +87,7 @@ public class AppController {
     }
 
 
-    public void endTransactionEditDialog(){
+    public void endTransactionEditDialog() {
 
         dialogStage.close();
     }
@@ -96,30 +96,24 @@ public class AppController {
                                String sentencePattern,
                                String forbiddenWords,
                                Integer deep,
-                               boolean ifMine){
+                               boolean ifMine) {
 
-        queries.add(new Query(url,sentencePattern,forbiddenWords,deep,ifMine));
+        queries.add(new Query(url, sentencePattern, forbiddenWords, deep, ifMine));
     }
 
-    public ObservableList<Query> getQueries(){
+    public ObservableList<Query> getQueries() {
         return queries;
     }
 
-    public void addResult(String url,String sentence){
-        urlPerSentences.add(new UrlPerSentence(url,sentence));
+    public void addResult(String url, String sentence) {
+        urlPerSentences.add(new UrlPerSentence(url, sentence));
     }
+
     public void startWebCrawling() {
         System.out.println("Started WebCrawling!!");
 
         Crawler crawler = new Crawler(this);
         Thread thread = new Thread(crawler);
         thread.start();
-//        try {
-//            thread.join();
-//        }catch (InterruptedException e){
-//            e.printStackTrace();
-        }
-//        crawler.startCrawling();
-
-//    }
+    }
 }

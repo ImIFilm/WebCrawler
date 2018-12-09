@@ -16,12 +16,12 @@ public class HtmlParser {
     private String url;
     private List<String> linksList;
 
-    public HtmlParser(String url){
-        this.url=url;
+    public HtmlParser(String url) {
+        this.url = url;
         findLinksInHtmlUrl();
     }
 
-    public String getTitle (){
+    public String getTitle() {
         Document doc = null;
         try {
             doc = Jsoup.connect(url).get();
@@ -35,49 +35,49 @@ public class HtmlParser {
         return url;
     }
 
-    public List<String> findLinksInHtmlFile(String fileName){
+    public List<String> findLinksInHtmlFile(String fileName) {
         linksList = new ArrayList<>();
         try {
             File input = new File(fileName);
             Document doc = Jsoup.parse(input, "UTF-8");
             findLinksInHtml(doc);
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return linksList;
     }
 
-    private void findLinksInHtmlUrl(){
+    private void findLinksInHtmlUrl() {
         try {
             findLinksInHtml(Jsoup.connect(url).get());
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void findLinksInHtml(Document doc){
+    private void findLinksInHtml(Document doc) {
         Elements links = doc.select("a[href]");
         linksList = new ArrayList<>();
-        for(Element link: links){
+        for (Element link : links) {
             linksList.add(link.attr("abs:href"));
         }
     }
 
-    public Elements parseToTextFromFile(String fileName){
+    public Elements parseToTextFromFile(String fileName) {
         Document doc = null;
         try {
             File input = new File(fileName);
             doc = Jsoup.parse(input, "UTF-8");
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return parseToTextFromDoc(doc);
     }
 
-    public Elements parseToText(){
-        try{
+    public Elements parseToText() {
+        try {
             return parseToTextFromDoc(Jsoup.connect(url).get());
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;

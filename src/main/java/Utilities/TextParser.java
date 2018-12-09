@@ -1,5 +1,6 @@
 package Utilities;
 //import com.sun.deploy.util.StringUtils;
+
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -13,15 +14,16 @@ import java.util.Locale;
 public class TextParser {
 
     private ArrayList<String> sentences;
-    public TextParser (Elements whatIsInWebsite){
+
+    public TextParser(Elements whatIsInWebsite) {
         this.sentences = makeSentences(whatIsInWebsite);
     }
 
-    private ArrayList<String> makeSentences(Elements whatIsInWebsite){
+    private ArrayList<String> makeSentences(Elements whatIsInWebsite) {
         String div;
         ArrayList<String> newest = new ArrayList<>();
-        for(Element element: whatIsInWebsite){
-            div=element.text();
+        for (Element element : whatIsInWebsite) {
+            div = element.text();
             BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.US);
             iterator.setText(div);
             List<String> result = new ArrayList<>();
@@ -34,7 +36,7 @@ public class TextParser {
         return newest;
     }
 
-    public ArrayList<String> getSentences(){
+    public ArrayList<String> getSentences() {
         return sentences;
     }
 }

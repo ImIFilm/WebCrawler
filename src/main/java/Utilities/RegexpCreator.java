@@ -5,11 +5,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegexpCreator {
-    public static String getSearchExpr(String sentence){
+    public static String getSearchExpr(String sentence) {
         sentence = sentence.toLowerCase();
-        if(isEmpty(sentence))
+        if (isEmpty(sentence))
             return "(?!)";
-        if(!validateInput(sentence)){
+        if (!validateInput(sentence)) {
             throw new IllegalArgumentException();
         }
 
@@ -20,16 +20,15 @@ public class RegexpCreator {
         Pattern pattern = Pattern.compile(divider);
         Matcher matcher = pattern.matcher(sentence);
         boolean first_match = true;
-        while(matcher.find()){
+        while (matcher.find()) {
             String word = matcher.group(1);
             String rest = matcher.group(2);
-            int starCount = (int)rest.chars().filter(c -> c == '*').count();
-            if(starCount > 0){
-                if(first_match)
+            int starCount = (int) rest.chars().filter(c -> c == '*').count();
+            if (starCount > 0) {
+                if (first_match)
                     word = word.concat(" ");
                 strBuilder.append(word).append(getAnyWordPattern(starCount));
-            }
-            else{
+            } else {
                 strBuilder.append(word).append(" ");
             }
             first_match = false;
@@ -39,16 +38,16 @@ public class RegexpCreator {
         return strBuilder.toString();
     }
 
-    private static boolean validateInput(String sentence){
+    private static boolean validateInput(String sentence) {
         String inputValidator = "^[a-zA-Z\\p{L}]+([\\*\\,\\s]+[a-zA-Z\\p{L}]+)*\\s*$";
         return sentence.matches(inputValidator);
     }
 
-    private static boolean isEmpty(String sentence){
+    private static boolean isEmpty(String sentence) {
         return sentence.matches("^\\s*$");
     }
 
-    private static String getAnyWordPattern(int count){
+    private static String getAnyWordPattern(int count) {
         return String.format("([a-zA-Z\\p{L}]+ ){%d}", count);
     }
 }

@@ -56,14 +56,14 @@ public class Crawler implements Runnable {
                 if (!visitedUrls.contains(linkInUrl)) {
                     System.out.println(linkInUrl);
                     visitedUrls.add(linkInUrl);
-//                    Query tmp = new Query(linkInUrl, "", "", query.getDeep() - 1, query.getSubdomains());
-//                    tmp.setForbiddenPattern(query.getForbiddenPattern());
-//                    tmp.setSentencePattern(query.getSentencePattern());
+                    Query tmp = new Query(linkInUrl, "nothing", "", query.getDeep() - 1, query.getSubdomains());
+                    tmp.setForbiddenPattern(query.getForbiddenPattern());
+                    tmp.setSentencePattern(query.getSentencePattern());
                     // to moze nie dzialac, trzeba potestowac
-                    query.setDeep(query.getDeep()-1);
-//                    evalQuery(tmp);
-                    evalQuery(query);
-                    query.setDeep(query.getDeep()+1);
+//                    query.setDeep(query.getDeep()-1);
+                    evalQuery(tmp);
+//                    evalQuery(query);
+//                    query.setDeep(query.getDeep()+1);
                 }
             }
         }
@@ -72,7 +72,7 @@ public class Crawler implements Runnable {
     private List<String> findMatchedSentences(Query query, List<String> sentences) {
         List<String> matchedSentences = new ArrayList<>();
         for (String sentence : sentences) {
-//            System.out.println(sentence);
+            System.out.println(sentence);
             if (query.matches(sentence)) {
                 System.out.println(sentence);
                 matchedSentences.add(sentence);

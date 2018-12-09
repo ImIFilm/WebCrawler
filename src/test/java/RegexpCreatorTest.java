@@ -2,6 +2,7 @@
 
 import static org.junit.Assert.assertEquals;
 
+import Utilities.RegexpCreator;
 import Utilities.SearchPattern;
 import org.junit.Test;
 
@@ -12,43 +13,13 @@ public class RegexpCreatorTest {
     @Test
     public void creatorTest() throws Exception{
 
-        SearchPattern searchPattern = new SearchPattern("");
-        assertEquals(false,searchPattern.matches("siema"));
-       /* RegexpCreator r1 =new RegexpCreator("ala/.llj", "kot");
-        assertEquals(r1.getValid(),false);
+        SearchPattern searchPattern1 = new SearchPattern(RegexpCreator.getSearchExpr("siema * kocie"));
+        assertEquals(true,searchPattern1.matches("siema ladny kocie"));
 
-        RegexpCreator r2 =new RegexpCreator("ala * kot", "kot");
-        assertEquals(r2.getValid(),false);
+        SearchPattern searchPattern2 = new SearchPattern(RegexpCreator.getSearchExpr("ala *** psa"));
+        assertEquals(true,searchPattern2.matches("ala ma kota i psa"));
 
-        RegexpCreator r3 =new RegexpCreator("ala", "kot");
-        assertEquals(r3.getValid(),true);
-//
-        RegexpCreator r4 =new RegexpCreator("", "");
-        assertEquals(r4.getValid(),false);
-//
-        RegexpCreator r5 =new RegexpCreator("ala *", "kot");
-        assertEquals(r5.getValid(),false);
 
-        RegexpCreator r6 =new RegexpCreator("*ala", "kot");
-        assertEquals(r6.getValid(),false);
-//
-        RegexpCreator r7 =new RegexpCreator("ala", "");
-        assertEquals(r7.getValid(),true);
-//
-        RegexpCreator r8 =new RegexpCreator("ala", "*kok");
-        assertEquals(r8.getValid(),false);
-//
-        RegexpCreator r9 =new RegexpCreator("ala,pies", "kot");
-        assertEquals(r9.getValid(),true);
-
-        RegexpCreator r10 =new RegexpCreator("ala**pies", "kot");
-        assertEquals(r10.getValid(),true);
-
-        RegexpCreator r11 =new RegexpCreator("ala**pięs", "kot");
-        assertEquals(r11.getValid(),true);
-
-        RegexpCreator r12 =new RegexpCreator("kielce", "");
-        assertEquals(r12.getValid(),true); */
 
     }
 

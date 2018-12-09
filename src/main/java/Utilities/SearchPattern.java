@@ -10,7 +10,7 @@ public class SearchPattern {
         this.patternRegex = patternRegex;
     }
 
-    public boolean matches(String sentence){
+    public boolean matches(String sentence) {
         Pattern pattern = Pattern.compile(patternRegex);
         Matcher matcher = pattern.matcher(sentence.toLowerCase());
         return matcher.find();

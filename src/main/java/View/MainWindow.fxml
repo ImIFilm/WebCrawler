@@ -12,12 +12,12 @@
                    prefWidth="200.0" BorderPane.alignment="CENTER">
             <columns>
                 <TableColumn fx:id="urlColumn" prefWidth="75.0"
-                             text="Url" />
+                             text="Url"/>
                 <TableColumn fx:id="sentenceColumn" prefWidth="75.0"
-                             text="Sentence" />
+                             text="Sentence"/>
             </columns>
             <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
             </columnResizePolicy>
         </TableView>
     </center>
@@ -26,18 +26,18 @@
                    prefWidth="200.0" BorderPane.alignment="CENTER">
             <columns>
                 <TableColumn fx:id="queryUrlColumn" prefWidth="75.0"
-                             text="Url" />
+                             text="Url"/>
                 <TableColumn fx:id="sentencePatternColumn" prefWidth="75.0"
-                             text="Sentence Pattern" />
+                             text="Sentence Pattern"/>
                 <TableColumn fx:id="forbiddenWordsColumn" prefWidth="75.0"
-                             text="Forbidden Words" />
+                             text="Forbidden Words"/>
                 <TableColumn fx:id="deepColumn" prefWidth="75.0"
-                             text="Deep" />
+                             text="Deep"/>
                 <TableColumn fx:id="subdomainsColumn" prefWidth="75.0"
-                             text="Subdomains" />
+                             text="Subdomains"/>
             </columns>
             <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
             </columnResizePolicy>
         </TableView>
     </top>
@@ -45,26 +45,26 @@
         <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="150.0"
               BorderPane.alignment="CENTER">
             <opaqueInsets>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
             </opaqueInsets>
             <children>
                 <Button fx:id="addButton" alignment="TOP_CENTER"
                         maxWidth="1.7976931348623157E308" mnemonicParsing="false"
                         onAction="#handleAddAction" text="Add new Query">
                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                     </VBox.margin>
                 </Button>
                 <Button fx:id="startButton" alignment="TOP_CENTER"
                         maxWidth="1.7976931348623157E308" mnemonicParsing="false"
                         onAction="#handleStartAction" text="Start">
                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                     </VBox.margin>
                 </Button>
             </children>
             <BorderPane.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
             </BorderPane.margin>
         </VBox>
     </right>

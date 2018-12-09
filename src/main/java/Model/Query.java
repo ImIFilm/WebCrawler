@@ -16,9 +16,11 @@ public class Query {
                  String sentence,
                  String forbiddenWords,
                  int deep,
-                 boolean subdomains){
-        if(isEmpty(sentence) && isEmpty(forbiddenWords))
+                 boolean subdomains) {
+        if (isEmpty(sentence) && isEmpty(forbiddenWords)) {
+            System.out.println("bad query");
             throw new IllegalArgumentException();
+        }
 
         this.url = url;
         this.deep = deep;
@@ -29,46 +31,51 @@ public class Query {
         this.forbiddenPattern = new SearchPattern(RegexpCreator.getSearchExpr(forbiddenWords));
     }
 
-    public String getUrl(){
+    public String getUrl() {
         return url;
     }
+
     public SearchPattern getSentencePattern() {
         return sentencePattern;
     }
 
-    public SearchPattern getForbiddenPattern(){
+    public SearchPattern getForbiddenPattern() {
         return forbiddenPattern;
     }
 
-    public int getDeep(){
+    public int getDeep() {
         return deep;
     }
-    public boolean getSubdomains(){
+
+    public boolean getSubdomains() {
         return subdomains;
     }
-    public String getSentencePatternString(){
+
+    public String getSentencePatternString() {
         return sentencePatternString;
     }
+
     public String getForbiddenPatternString() {
         return forbiddenPatternString;
     }
 
-    public void setSentencePattern(SearchPattern sentencePattern){
+    public void setSentencePattern(SearchPattern sentencePattern) {
         this.sentencePattern = sentencePattern;
     }
-    public void setForbiddenPattern(SearchPattern forbiddenPattern){
+
+    public void setForbiddenPattern(SearchPattern forbiddenPattern) {
         this.forbiddenPattern = forbiddenPattern;
     }
 
-    public void setDeep(int deep){
+    public void setDeep(int deep) {
         this.deep = deep;
     }
 
-    public boolean matches(String fullSentence){
+    public boolean matches(String fullSentence) {
         return sentencePattern.matches(fullSentence) && !forbiddenPattern.matches(fullSentence);
     }
 
-    private boolean isEmpty(String sentence){
+    private boolean isEmpty(String sentence) {
         return sentence.matches("^\\s*$");
     }
 }

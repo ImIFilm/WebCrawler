@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -50,69 +51,51 @@ public class QueryWindowController {
         appController.endTransactionEditDialog();
 
     }
+
     @FXML
     VBox pane;
 
     @FXML
     ListView<String> urlList;
 
-    @FXML void getTexts(){
+    @FXML
+    void getTexts() {
         String current = urlTextField.getText();
         System.out.println(current);
-        this.urls.add(current);
+        Pattern pattern = Pattern.compile("^http[s]?:\\/{2}(www\\.)?\\w+(\\.\\w+)+(\\/\\S*)*$");
+        Matcher matcher1 = pattern.matcher(current);
+        String url = "http://" + current;
+        Matcher matcher2 = pattern.matcher(url);
+        if (!matcher1.matches() && !matcher2.matches()) {
+            System.out.println("There is wrong url");
+            printWarning("It is wrong url");
+        } else if (matcher2.matches()) {
+            if (this.urls.contains(url)) {
+                printWarning("This url has already been added");
+                return;
+            }
+            this.urls.add(url);
+        } else {
+            this.urls.add(current);
+        }
         urlList.setItems(urls);
+        urlTextField.setText(null);
     }
 
     @FXML
     private void handleAdd(ActionEvent event) {
-        if (urls.isEmpty()){
-            System.out.println("There is empty url");
-            FXMLLoader loader = new FXMLLoader();
-            try {
-                loader.setLocation(new File("src/main/java/View/WarningWindow.fxml").toURL());
-                BorderPane page = (BorderPane) loader.load();
-                QueryWindowController controller = loader.getController();
-                Stage dialogStage = new Stage();
-                dialogStage.setTitle("Warning");
-                dialogStage.initModality(Modality.WINDOW_MODAL);
-                dialogStage.initOwner(appController.getDialogStage());
-                Scene scene = new Scene(page);
-                dialogStage.setScene(scene);
-
-                // Show the dialog and wait until the user closes it
-                dialogStage.show();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
+        if (urls.isEmpty()) {
+            printWarning("There is empty url");
+            return;
         }
-        Pattern pattern = Pattern.compile("^http[s]?:\\/{2}(www\\.)?\\w+(\\.\\w+)+(\\/\\S*)*$");
-        for (int i=0; i<urls.size(); i++){
-            Matcher matcher1 = pattern.matcher(urls.get(i));
-            String url = "http://" + urls.get(i);
-            Matcher matcher2 = pattern.matcher(url);
-            if(!matcher1.find() && !matcher2.find()){
-                System.out.println("There is wrong url");
-                FXMLLoader loader = new FXMLLoader();
-                try {
-                    loader.setLocation(new File("src/main/java/View/WarningWindow.fxml").toURL());
-                    BorderPane page = (BorderPane) loader.load();
-                    QueryWindowController controller = loader.getController();
-                    Stage dialogStage = new Stage();
-                    dialogStage.setTitle("Warning");
-                    dialogStage.initModality(Modality.WINDOW_MODAL);
-                    dialogStage.initOwner(appController.getDialogStage());
-                    Scene scene = new Scene(page);
-                    dialogStage.setScene(scene);
+        for (String url : urls) {
+            try {
+                new Query(url,
+                        queryTextField.getText(),
+                        forbiddenWordsTextField.getText(),
+                        Integer.decode(deepSpinner.getValue().toString()),
+                        Boolean.valueOf(SubdomainsText.getSelectionModel().getSelectedItem().toString()));
 
-                    // Show the dialog and wait until the user closes it
-                    dialogStage.show();
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-            }else {
-                if(matcher1.find()){
-                    url = urls.get(i);
-                }
                 appController.addQueryDialog(
                         url,
                         queryTextField.getText(),
@@ -120,6 +103,9 @@ public class QueryWindowController {
                         Integer.decode(deepSpinner.getValue().toString()),
                         Boolean.valueOf(SubdomainsText.getSelectionModel().getSelectedItem().toString()));
 
+            } catch (IllegalArgumentException e) {
+                printWarning("There is bad query");
+                return;
             }
         }
         urlTextField.setText(null);
@@ -127,6 +113,29 @@ public class QueryWindowController {
         forbiddenWordsTextField.setText(null);
         appController.endTransactionEditDialog();
     }
+
+    private void printWarning(String warning) {
+        FXMLLoader loader = new FXMLLoader();
+        try {
+            loader.setLocation(new File("src/main/java/View/WarningWindow.fxml").toURL());
+            BorderPane page = (BorderPane) loader.load();
+            WarningController controller = loader.getController();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Warning");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(appController.getDialogStage());
+            controller.setWarning(warning);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void setAppController(AppController appController) {
         this.appController = appController;
         urls = FXCollections.observableArrayList();

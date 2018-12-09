@@ -3,9 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane id="root" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.QueryWindowController"
+<BorderPane id="root" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.WarningController"
             prefHeight="70" prefWidth="300">
     <center>
-        <Label text="You didn't fill label Url with proper Url." />
+        <Label fx:id="warningLabel" text="You didn't fill label Url with proper Url."/>
     </center>
 </BorderPane>
