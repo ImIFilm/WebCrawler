@@ -2,6 +2,7 @@ package Model;
 
 import Utilities.RegexpCreator;
 import Utilities.SearchPattern;
+import Utilities.Validator;
 
 public class Query {
     private String url;
@@ -11,6 +12,8 @@ public class Query {
     private String forbiddenPatternString;
     private Integer deep;
     private boolean subdomains;
+
+    private Validator validator;
 
     public Query(String url,
                  String sentence,
@@ -29,6 +32,8 @@ public class Query {
         this.forbiddenPatternString = forbiddenWords;
         this.sentencePattern = new SearchPattern(RegexpCreator.getSearchExpr(sentence));
         this.forbiddenPattern = new SearchPattern(RegexpCreator.getSearchExpr(forbiddenWords));
+
+        this.validator = new Validator();
     }
 
     public String getUrl() {
@@ -77,6 +82,14 @@ public class Query {
 
     private boolean isEmpty(String sentence) {
         return sentence.matches("^\\s*$");
+    }
+
+    public boolean isContinuation(String link, String sub){
+        return this.validator.isContinuation(link, sub);
+    }
+
+    public boolean isSubdomain(String link, String sub){
+        return this.validator.isSubdomain(link, sub);
     }
 }
 
