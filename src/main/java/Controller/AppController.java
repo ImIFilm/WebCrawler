@@ -86,31 +86,6 @@ public class AppController {
         }
     }
 
-    public void showAddUrlDialog() {
-        try {
-            // Load the fxml file and create a new stage for the dialog
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(new File("src/main/java/View/AddUrlWindow.fxml").toURL());
-            BorderPane page = (BorderPane) loader.load();
-            UrlWindowController controller = loader.getController();
-            controller.setAppController(this);
-            // Create the dialog Stage.
-            dialogStage = new Stage();
-            dialogStage.setTitle("Add Url");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public void endTransactionEditDialog(){
 
