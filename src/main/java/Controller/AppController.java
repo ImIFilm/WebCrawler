@@ -86,6 +86,7 @@ public class AppController {
         }
     }
 
+
     public void endTransactionEditDialog(){
 
         dialogStage.close();
