@@ -14,7 +14,7 @@ public class Validator {
                 .map(e -> e.equals(".") ? "\\." : e)
                 .reduce("", String::concat);
 
-        pattern = Pattern.compile(String.format("^(http[s]?:\\/{2})?(www\\.)?(\\w+\\.)+\\b%s\\b(\\/\\S*)*$", domain));
+        pattern = Pattern.compile(String.format(".+\\b%s\\b(\\/\\S*)*$", domain));
         matcher = pattern.matcher(sub);
         return matcher.find();
     }
