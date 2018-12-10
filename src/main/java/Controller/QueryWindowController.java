@@ -1,6 +1,8 @@
 package Controller;
 
 import Model.Query;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -44,12 +46,27 @@ public class QueryWindowController {
 
     @FXML
     private void initialize() {
+        SubdomainsText.setDisable(true);
+        deepSpinner.decrement();
+        deepSpinner.decrement();
+        deepSpinner.decrement();
+        SubdomainsText.setValue(false);
+        deepSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
+            @Override
+            public void changed(ObservableValue<? extends Integer> ov, Integer t, Integer t1) {
+                //System.out.println(t+"====="+t1);
+                if(t1==0)
+                    SubdomainsText.setDisable(true);
+                else
+                    SubdomainsText.setDisable(false);
+            }
+        });
+
     }
 
     @FXML
     private void handleCancelAction(ActionEvent event) {
         appController.endTransactionEditDialog();
-
     }
 
     @FXML
