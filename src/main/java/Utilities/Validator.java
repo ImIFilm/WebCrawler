@@ -23,8 +23,8 @@ public class Validator {
         }
     }
 
-    private boolean isSubdomain(String sub){
-        try{
+    private boolean isSubdomain(String sub) {
+        try {
             Pattern pattern = Pattern.compile("^(http[s]?:\\/{2})?(www\\.)?((\\w+\\.)+\\w+)(\\/\\S*)*$");
             Matcher matcher = pattern.matcher(link);
             matcher.find();
@@ -36,8 +36,7 @@ public class Validator {
             pattern = Pattern.compile(String.format("^(http[s]?:\\/{2})?(www\\.)?(\\w+\\.)+\\b%s\\b(\\/\\S*)*$", domain));
             matcher = pattern.matcher(sub);
             return matcher.find();
-        }
-        catch(IllegalStateException e){
+        } catch (IllegalStateException e) {
             return false;
         }
     }
