@@ -7,6 +7,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,7 +28,6 @@ public class HtmlParserTest {
         assertEquals(linksInHtmlFile,Arrays.asList("http://deep1.html/"));
         assertEquals(textParser2.getSentences(),
                 Arrays.asList("Pies i ala ma kota. ", "Ladna dzis pogoda. ", "Ladnego ala ma kota. ", "Ala i ladny pies."));
-
 
     }
 }

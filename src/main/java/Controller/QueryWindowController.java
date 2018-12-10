@@ -64,7 +64,7 @@ public class QueryWindowController {
         System.out.println(current);
         Pattern pattern = Pattern.compile("^http[s]?:\\/{2}(www\\.)?\\w+(\\.\\w+)+(\\/\\S*)*$");
         Matcher matcher1 = pattern.matcher(current);
-        String url = "http://" + current;
+        String url = "https://" + current;
         Matcher matcher2 = pattern.matcher(url);
         if (!matcher1.matches() && !matcher2.matches()) {
             System.out.println("There is wrong url");

@@ -33,7 +33,7 @@ public class Query {
         this.sentencePattern = new SearchPattern(RegexpCreator.getSearchExpr(sentence));
         this.forbiddenPattern = new SearchPattern(RegexpCreator.getSearchExpr(forbiddenWords));
 
-        this.validator = new Validator();
+        this.validator = new Validator(url,subdomains);
     }
 
     public String getUrl() {
@@ -84,12 +84,9 @@ public class Query {
         return sentence.matches("^\\s*$");
     }
 
-    public boolean isContinuation(String link, String sub){
-        return this.validator.isContinuation(link, sub);
+    public boolean validateSublink(String sub){
+        return this.validator.validateSublink(sub);
     }
 
-    public boolean isSubdomain(String link, String sub){
-        return this.validator.isSubdomain(link, sub);
-    }
 }
 

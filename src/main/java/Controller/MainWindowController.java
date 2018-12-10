@@ -90,7 +90,7 @@ public class MainWindowController {
         queryTableView.setItems(queries);
     }
 
-    public void addQuery(Query query){
-        queries.add(query);
-    }
+//    public void addQuery(Query query){
+//        queries.add(query);
+//    }
 }

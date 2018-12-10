@@ -45,8 +45,7 @@ public class AppController {
             //test values
             queries = FXCollections.observableArrayList();
             urlPerSentences = FXCollections.observableArrayList();
-//            urlPerSentences.add(new UrlPerSentence("http://onet.pl/","ala ma kota"));
-            queries.add(new Query("http://galaxy.agh.edu.pl/~kzajac/dydakt/tw/index.html", "jezyk", "", 1, true));
+            queries.add(new Query("https://onet.pl/", "polska", "", 2, true));
 
             controller.setTableViews(urlPerSentences, queries);
             // add layout to a scene and show them all

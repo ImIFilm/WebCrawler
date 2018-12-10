@@ -6,6 +6,8 @@ import javafx.util.Pair;
 import org.jsoup.select.Elements;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Crawler implements Runnable {
 
@@ -49,32 +51,40 @@ public class Crawler implements Runnable {
         for (String matchedSentence : matchedSentences) {
             appController.addResult(query.getUrl(), matchedSentence);
         }
+        //bo raz mi sie wysypalo, bo zamiast linku byl jakis email
+        try{
+            visitedUrls.add(getDomain(query.getUrl()));
+        }catch (IllegalStateException e){
+            return;
+        }
         System.out.println("Actual deep = " + query.getDeep());
         if (query.getDeep() != 0) {
             List<String> linksInUrl = htmlParser.getLinksList();
             for (String linkInUrl : linksInUrl) {
-                if (!visitedUrls.contains(linkInUrl)) {
+                String domain = getDomain(linkInUrl);
+                if (!visitedUrls.contains(domain) && query.validateSublink(linkInUrl)) {
                     System.out.println(linkInUrl);
-                    visitedUrls.add(linkInUrl);
+                    visitedUrls.add(domain);
                     Query tmp = new Query(linkInUrl, "nothing", "", query.getDeep() - 1, query.getSubdomains());
                     tmp.setForbiddenPattern(query.getForbiddenPattern());
                     tmp.setSentencePattern(query.getSentencePattern());
-                    // to moze nie dzialac, trzeba potestowac
-//                    query.setDeep(query.getDeep()-1);
                     evalQuery(tmp);
-//                    evalQuery(query);
-//                    query.setDeep(query.getDeep()+1);
                 }
             }
         }
     }
 
+    private String getDomain(String url){
+        Pattern pattern = Pattern.compile("(https?://w?w?w?[.]?)([^:^/]*)(:\\d*)?(.*)?");
+        Matcher matcher = pattern.matcher(url);
+        matcher.find();
+        return matcher.group(2) + matcher.group(4);
+    }
+
     private List<String> findMatchedSentences(Query query, List<String> sentences) {
         List<String> matchedSentences = new ArrayList<>();
         for (String sentence : sentences) {
-            System.out.println(sentence);
             if (query.matches(sentence)) {
-                System.out.println(sentence);
                 matchedSentences.add(sentence);
             }
         }
