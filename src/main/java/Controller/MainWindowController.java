@@ -35,19 +35,19 @@ public class MainWindowController {
     private TableView<Query> queryTableView;
 
     @FXML
-    private TableColumn<Query,String> queryUrlColumn;
+    private TableColumn<Query, String> queryUrlColumn;
 
     @FXML
-    private TableColumn<Query,String> sentencePatternColumn;
+    private TableColumn<Query, String> sentencePatternColumn;
 
     @FXML
-    private TableColumn<Query,String> forbiddenWordsColumn;
+    private TableColumn<Query, String> forbiddenWordsColumn;
 
     @FXML
-    private TableColumn<Query,Integer> deepColumn;
+    private TableColumn<Query, Integer> deepColumn;
 
     @FXML
-    private TableColumn<Query,Boolean> subdomainsColumn;
+    private TableColumn<Query, Boolean> subdomainsColumn;
 
 
     @FXML
@@ -83,14 +83,11 @@ public class MainWindowController {
         this.appController = appController;
     }
 
-    public void setTableViews(ObservableList<UrlPerSentence> urlPerSentences, ObservableList<Query> queries){
+    public void setTableViews(ObservableList<UrlPerSentence> urlPerSentences, ObservableList<Query> queries) {
         this.urlPerSentences = urlPerSentences;
-        this.queries= queries;
+        this.queries = queries;
         pageTableView.setItems(urlPerSentences);
         queryTableView.setItems(queries);
     }
 
-//    public void addQuery(Query query){
-//        queries.add(query);
-//    }
 }

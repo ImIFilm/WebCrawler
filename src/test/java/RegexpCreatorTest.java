@@ -15,11 +15,11 @@ public class RegexpCreatorTest {
 
         SearchPattern searchPattern1 = new SearchPattern(RegexpCreator.getSearchExpr("siema * kocie"));
         assertEquals(true,searchPattern1.matches("siema ladny kocie"));
+        assertEquals(false,searchPattern1.matches("siema kocie"));
 
         SearchPattern searchPattern2 = new SearchPattern(RegexpCreator.getSearchExpr("ala *** psa"));
         assertEquals(true,searchPattern2.matches("ala ma kota i psa"));
-
-
+        assertEquals(false,searchPattern2.matches("ala ma psa"));
 
     }
 

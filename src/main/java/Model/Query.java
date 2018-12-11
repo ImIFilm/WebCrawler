@@ -16,11 +16,11 @@ public class Query {
     private Validator validator;
 
     public Query(String url,
-                 String sentence,
-                 String forbiddenWords,
+                 String sentencePattern,
+                 String forbiddenPattern,
                  int deep,
                  boolean subdomains) {
-        if (isEmpty(sentence) && isEmpty(forbiddenWords)) {
+        if (isEmpty(sentencePattern) && isEmpty(forbiddenPattern)) {
             System.out.println("bad query");
             throw new IllegalArgumentException();
         }
@@ -28,12 +28,42 @@ public class Query {
         this.url = url;
         this.deep = deep;
         this.subdomains = subdomains;
-        this.sentencePatternString = sentence;
-        this.forbiddenPatternString = forbiddenWords;
-        this.sentencePattern = new SearchPattern(RegexpCreator.getSearchExpr(sentence));
-        this.forbiddenPattern = new SearchPattern(RegexpCreator.getSearchExpr(forbiddenWords));
+        this.sentencePatternString = sentencePattern;
+        this.forbiddenPatternString = forbiddenPattern;
+        this.sentencePattern = new SearchPattern(RegexpCreator.getSearchExpr(sentencePattern));
+        this.forbiddenPattern = new SearchPattern(RegexpCreator.getSearchExpr(forbiddenPattern));
 
-        this.validator = new Validator(url,subdomains);
+        this.validator = new Validator(url, subdomains);
+    }
+
+    private Query(String url,
+                  String sentencePatternString,
+                  String forbiddenPatternString,
+                  int deep,
+                  boolean subdomains,
+                  SearchPattern sentencePattern,
+                  SearchPattern forbiddenPattern,
+                  Validator validator) {
+        this.url = url;
+        this.sentencePatternString = sentencePatternString;
+        this.forbiddenPatternString = forbiddenPatternString;
+        this.sentencePattern = sentencePattern;
+        this.forbiddenPattern = forbiddenPattern;
+        this.subdomains = subdomains;
+        this.deep = deep;
+        this.validator = validator;
+    }
+
+    public Query clone() {
+        return new Query(
+                this.url,
+                this.sentencePatternString,
+                this.forbiddenPatternString,
+                this.deep,
+                this.subdomains,
+                this.sentencePattern,
+                this.forbiddenPattern,
+                this.validator);
     }
 
     public String getUrl() {
@@ -76,6 +106,10 @@ public class Query {
         this.deep = deep;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public boolean matches(String fullSentence) {
         return sentencePattern.matches(fullSentence) && !forbiddenPattern.matches(fullSentence);
     }
@@ -84,7 +118,7 @@ public class Query {
         return sentence.matches("^\\s*$");
     }
 
-    public boolean validateSublink(String sub){
+    public boolean validateSublink(String sub) {
         return this.validator.validateSublink(sub);
     }
 

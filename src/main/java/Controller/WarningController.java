@@ -14,7 +14,7 @@ public class WarningController {
     }
 
 
-    public void setWarning(String warning){
+    public void setWarning(String warning) {
         warningLabel.setText(warning);
     }
 }

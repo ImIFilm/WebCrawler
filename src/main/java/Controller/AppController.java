@@ -45,7 +45,8 @@ public class AppController {
             //test values
             queries = FXCollections.observableArrayList();
             urlPerSentences = FXCollections.observableArrayList();
-            queries.add(new Query("https://onet.pl/", "polska", "", 2, true));
+//            queries.add(new Query("http://galaxy.agh.edu.pl/~kzajac/dydakt/tw/index.html", "wątek", "", 2, true));
+            queries.add(new Query("http://onet.pl", "Polska", "", 0, true));
 
             controller.setTableViews(urlPerSentences, queries);
             // add layout to a scene and show them all
@@ -91,13 +92,9 @@ public class AppController {
         dialogStage.close();
     }
 
-    public void addQueryDialog(String url,
-                               String sentencePattern,
-                               String forbiddenWords,
-                               Integer deep,
-                               boolean ifMine) {
+    public void addQueryDialog(Query query) {
 
-        queries.add(new Query(url, sentencePattern, forbiddenWords, deep, ifMine));
+        queries.add(query);
     }
 
     public ObservableList<Query> getQueries() {
@@ -115,4 +112,5 @@ public class AppController {
         Thread thread = new Thread(crawler);
         thread.start();
     }
+
 }

@@ -53,8 +53,7 @@ public class QueryWindowController {
         deepSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
             @Override
             public void changed(ObservableValue<? extends Integer> ov, Integer t, Integer t1) {
-                //System.out.println(t+"====="+t1);
-                if(t1==0)
+                if (t1 == 0)
                     SubdomainsText.setDisable(true);
                 else
                     SubdomainsText.setDisable(false);
@@ -77,7 +76,10 @@ public class QueryWindowController {
     @FXML
     void getTexts() {
         String current = urlTextField.getText();
-        System.out.println(current);
+        if (current == null) {
+            printWarning("This url is empty");
+            return;
+        }
         Pattern pattern = Pattern.compile("^http[s]?:\\/{2}(www\\.)?\\w+(\\.\\w+)+(\\/\\S*)*$");
         Matcher matcher1 = pattern.matcher(current);
         String url = "https://" + current;
@@ -85,6 +87,7 @@ public class QueryWindowController {
         if (!matcher1.matches() && !matcher2.matches()) {
             System.out.println("There is wrong url");
             printWarning("It is wrong url");
+            return;
         } else if (matcher2.matches()) {
             if (this.urls.contains(url)) {
                 printWarning("This url has already been added");
@@ -106,19 +109,13 @@ public class QueryWindowController {
         }
         for (String url : urls) {
             try {
-                new Query(url,
+                Query newQuery = new Query(url,
                         queryTextField.getText(),
                         forbiddenWordsTextField.getText(),
                         Integer.decode(deepSpinner.getValue().toString()),
                         Boolean.valueOf(SubdomainsText.getSelectionModel().getSelectedItem().toString()));
 
-                appController.addQueryDialog(
-                        url,
-                        queryTextField.getText(),
-                        forbiddenWordsTextField.getText(),
-                        Integer.decode(deepSpinner.getValue().toString()),
-                        Boolean.valueOf(SubdomainsText.getSelectionModel().getSelectedItem().toString()));
-
+                appController.addQueryDialog(newQuery);
             } catch (IllegalArgumentException e) {
                 printWarning("There is bad query");
                 return;
@@ -139,7 +136,6 @@ public class QueryWindowController {
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Warning");
             dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(appController.getDialogStage());
             controller.setWarning(warning);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
@@ -149,7 +145,6 @@ public class QueryWindowController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public void setAppController(AppController appController) {

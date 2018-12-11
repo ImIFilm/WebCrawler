@@ -26,7 +26,6 @@ public class Crawler implements Runnable {
 
     private void startCrawling() {
         for (Query query : appController.getQueries()) {
-            System.out.println(query.getUrl());
             evalQuery(query);
             visitedUrls = new HashSet<>();
         }
@@ -51,34 +50,38 @@ public class Crawler implements Runnable {
         for (String matchedSentence : matchedSentences) {
             appController.addResult(query.getUrl(), matchedSentence);
         }
-        //bo raz mi sie wysypalo, bo zamiast linku byl jakis email
-        try{
+        try {
             visitedUrls.add(getDomain(query.getUrl()));
-        }catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             return;
         }
-        System.out.println("Actual deep = " + query.getDeep());
         if (query.getDeep() != 0) {
             List<String> linksInUrl = htmlParser.getLinksList();
             for (String linkInUrl : linksInUrl) {
                 String domain = getDomain(linkInUrl);
                 if (!visitedUrls.contains(domain) && query.validateSublink(linkInUrl)) {
-                    System.out.println(linkInUrl);
                     visitedUrls.add(domain);
-                    Query tmp = new Query(linkInUrl, "nothing", "", query.getDeep() - 1, query.getSubdomains());
-                    tmp.setForbiddenPattern(query.getForbiddenPattern());
-                    tmp.setSentencePattern(query.getSentencePattern());
+                    Query tmp = query.clone();
+                    tmp.setDeep(query.getDeep() - 1);
+                    tmp.setUrl(linkInUrl);
                     evalQuery(tmp);
                 }
             }
         }
     }
 
-    private String getDomain(String url){
+    private String getDomain(String url) {
         Pattern pattern = Pattern.compile("(https?://w?w?w?[.]?)([^:^/]*)(:\\d*)?(.*)?");
         Matcher matcher = pattern.matcher(url);
         matcher.find();
+        if (matcher.group(4) == null || matcher.group(4).isEmpty()) {
+            return matcher.group(2) + "/";
+        }
         return matcher.group(2) + matcher.group(4);
+    }
+
+    public String getDomainTest(String url) {
+        return getDomain(url);
     }
 
     private List<String> findMatchedSentences(Query query, List<String> sentences) {
