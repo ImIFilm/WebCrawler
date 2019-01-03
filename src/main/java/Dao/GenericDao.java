@@ -1,10 +1,10 @@
 package Dao;
 
-import javax.persistence.PersistenceException;
-
+import Session.SessionService;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import Session.SessionService;
+
+import javax.persistence.PersistenceException;
 
 public abstract class GenericDao<T> {
 

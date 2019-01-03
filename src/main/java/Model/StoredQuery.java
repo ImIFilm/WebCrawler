@@ -24,10 +24,15 @@ public class StoredQuery extends Query {
 
     public StoredQuery(Query query){
         this.url = query.getUrl();
+        super.url = query.getUrl();
         this.sentenceRegex = query.getSentencePattern().getPatternRegex();
         this.forbiddenRegex = query.getForbiddenPattern().getPatternRegex();
         this.depth = query.getDepth();
+        super.depth = query.getDepth();
         this.subdomains = query.getSubdomains();
+        super.subdomains = query.getSubdomains();
+        this.sentencePattern = query.getSentencePattern();
+        this.forbiddenPattern = query.getForbiddenPattern();
     }
 
     public String getUrl(){

@@ -9,6 +9,7 @@ public class Query {
     protected Integer depth;
     protected boolean subdomains;
 
+//    public Query(String url, SearchPattern sentencePattern, SearchPattern forbiddenPattern)
 
     public String getUrl() {
         return url;
@@ -47,7 +48,12 @@ public class Query {
     }
 
 
-
+    public boolean equals(Query query){
+        return this.url.equals(query.getUrl()) &&
+            this.sentencePattern.getPatternRegex().equals(query.getSentencePattern().getPatternRegex()) &&
+            this.forbiddenPattern.getPatternRegex().equals(query.getForbiddenPattern().getPatternRegex()) &&
+            this.depth == query.getDepth() && this.subdomains == query.getSubdomains();
+    }
 
 }
 

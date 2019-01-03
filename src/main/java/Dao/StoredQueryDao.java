@@ -1,17 +1,13 @@
 package Dao;
 
-import Model.GivenQuery;
 import Model.Query;
-import Model.Result;
 import Model.StoredQuery;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
-import java.util.Optional;
 
-public class StoredQueryDao extends GenericDao<StoredQuery>{
+public class StoredQueryDao extends GenericDao<StoredQuery> {
 
-    //powinno dzialac
     public StoredQuery create(Query query) {
         try {
             StoredQuery storedQuery = new StoredQuery(query);

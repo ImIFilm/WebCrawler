@@ -1,12 +1,10 @@
-
-
-import static org.junit.Assert.assertEquals;
-
 import Controller.AppController;
 import Session.SessionService;
 import Utilities.Crawler;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import static org.junit.Assert.assertEquals;
 
 
 public class CrawlerTest {

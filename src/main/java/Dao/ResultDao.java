@@ -1,19 +1,15 @@
 package Dao;
 
-import Model.GivenQuery;
 import Model.Query;
 import Model.Result;
 import Model.StoredQuery;
 
-import java.util.List;
-import java.util.Optional;
-
 import javax.persistence.PersistenceException;
+import java.util.List;
 
 
 public class ResultDao extends GenericDao<Result> {
 
-    //powinno dzialac
     public Result create(StoredQuery storedQuery, String sentence) {
         try {
             Result result = new Result(storedQuery,sentence);
@@ -25,8 +21,7 @@ public class ResultDao extends GenericDao<Result> {
         }
     }
 
-    //powinno dzialac
-    public Boolean exists(Result result){
+    public Boolean exists(Query query, String sentence){
         try{
             List<Result> results = currentSession().createQuery(
                     "Select r FROM Result r " +
@@ -35,12 +30,12 @@ public class ResultDao extends GenericDao<Result> {
                             "r.storedQuery.forbiddenRegex = :forbiddenRegex and " +
                             "r.storedQuery.depth = :depth and " +
                             "r.storedQuery.subdomains = :subdomains", Result.class)
-                    .setParameter("sentence",result.getSentence())
-                    .setParameter("url",result.getStoredQuery().getUrl())
-                    .setParameter("sentenceRegex",result.getStoredQuery().getSentenceRegex())
-                    .setParameter("forbiddenRegex",result.getStoredQuery().getForbiddenRegex())
-                    .setParameter("depth",result.getStoredQuery().getDepth())
-                    .setParameter("subdomains",result.getStoredQuery().getSubdomains())
+                    .setParameter("sentence",sentence)
+                    .setParameter("url",query.getUrl())
+                    .setParameter("sentenceRegex",query.getSentencePattern().getPatternRegex())
+                    .setParameter("forbiddenRegex",query.getForbiddenPattern().getPatternRegex())
+                    .setParameter("depth",query.getDepth())
+                    .setParameter("subdomains",query.getSubdomains())
                     .getResultList();
             if(results.isEmpty()){
                 return false;
@@ -49,6 +44,10 @@ public class ResultDao extends GenericDao<Result> {
             return false;
         }
         return true;
+    }
+
+    public Boolean exists(Result result){
+        return exists(result.getStoredQuery(),result.getSentence());
     }
 
 }
