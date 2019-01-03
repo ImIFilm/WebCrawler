@@ -3,6 +3,7 @@
 import static org.junit.Assert.assertEquals;
 
 import Controller.AppController;
+import Session.SessionService;
 import Utilities.Crawler;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -12,6 +13,7 @@ public class CrawlerTest {
     @Test
     public void getDomainTest() throws Exception{
 
+        SessionService.openSession();
         AppController appController = Mockito.mock(AppController.class);
         Crawler crawler = new Crawler(appController);
         String url1 = "http://onet.pl";

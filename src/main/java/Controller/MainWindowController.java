@@ -1,9 +1,8 @@
 package Controller;
 
-import Model.Query;
+import Model.GivenQuery;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +18,7 @@ public class MainWindowController {
     @SuppressWarnings("unused")
     private ObservableList<UrlPerSentence> urlPerSentences;
 
-    private ObservableList<Query> queries;
+    private ObservableList<GivenQuery> queries;
 
     @FXML
     private TableView<UrlPerSentence> pageTableView;
@@ -32,22 +31,22 @@ public class MainWindowController {
 
 
     @FXML
-    private TableView<Query> queryTableView;
+    private TableView<GivenQuery> queryTableView;
 
     @FXML
-    private TableColumn<Query, String> queryUrlColumn;
+    private TableColumn<GivenQuery, String> queryUrlColumn;
 
     @FXML
-    private TableColumn<Query, String> sentencePatternColumn;
+    private TableColumn<GivenQuery, String> sentencePatternColumn;
 
     @FXML
-    private TableColumn<Query, String> forbiddenWordsColumn;
+    private TableColumn<GivenQuery, String> forbiddenWordsColumn;
 
     @FXML
-    private TableColumn<Query, Integer> deepColumn;
+    private TableColumn<GivenQuery, Integer> deepColumn;
 
     @FXML
-    private TableColumn<Query, Boolean> subdomainsColumn;
+    private TableColumn<GivenQuery, Boolean> subdomainsColumn;
 
 
     @FXML
@@ -64,7 +63,7 @@ public class MainWindowController {
         queryUrlColumn.setCellValueFactory(dataValue -> new SimpleStringProperty(dataValue.getValue().getUrl()));
         sentencePatternColumn.setCellValueFactory(dataValue -> new SimpleStringProperty(dataValue.getValue().getSentencePatternString()));
         forbiddenWordsColumn.setCellValueFactory(dataValue -> new SimpleStringProperty(dataValue.getValue().getForbiddenPatternString()));
-        deepColumn.setCellValueFactory(dataValue -> new SimpleObjectProperty<>(dataValue.getValue().getDeep()));
+        deepColumn.setCellValueFactory(dataValue -> new SimpleObjectProperty<>(dataValue.getValue().getDepth()));
         subdomainsColumn.setCellValueFactory(dataValue -> new SimpleObjectProperty<>(dataValue.getValue().getSubdomains()));
     }
 
@@ -83,7 +82,7 @@ public class MainWindowController {
         this.appController = appController;
     }
 
-    public void setTableViews(ObservableList<UrlPerSentence> urlPerSentences, ObservableList<Query> queries) {
+    public void setTableViews(ObservableList<UrlPerSentence> urlPerSentences, ObservableList<GivenQuery> queries) {
         this.urlPerSentences = urlPerSentences;
         this.queries = queries;
         pageTableView.setItems(urlPerSentences);

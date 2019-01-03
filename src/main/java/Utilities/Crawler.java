@@ -1,7 +1,7 @@
 package Utilities;
 
 import Controller.AppController;
-import Model.Query;
+import Model.GivenQuery;
 import javafx.util.Pair;
 import org.jsoup.select.Elements;
 
@@ -25,44 +25,44 @@ public class Crawler implements Runnable {
     }
 
     private void startCrawling() {
-        for (Query query : appController.getQueries()) {
-            evalQuery(query);
+        for (GivenQuery givenQuery : appController.getQueries()) {
+            evalQuery(givenQuery);
             visitedUrls = new HashSet<>();
         }
         System.out.println("Stoped crawling");
     }
 
 
-    private void evalQuery(Query query) {
+    private void evalQuery(GivenQuery givenQuery) {
         HtmlParser htmlParser;
         TextParser textParser;
-        if (!webPages.containsKey(query.getUrl())) {
-            htmlParser = new HtmlParser(query.getUrl());
+        if (!webPages.containsKey(givenQuery.getUrl())) {
+            htmlParser = new HtmlParser(givenQuery.getUrl());
             Elements downloadedWebsite = htmlParser.parseToText();
             textParser = new TextParser(downloadedWebsite);
-            webPages.put(query.getUrl(), new Pair(htmlParser, textParser));
+            webPages.put(givenQuery.getUrl(), new Pair(htmlParser, textParser));
         } else {
-            Pair<HtmlParser, TextParser> pair = webPages.get(query.getUrl());
+            Pair<HtmlParser, TextParser> pair = webPages.get(givenQuery.getUrl());
             htmlParser = pair.getKey();
             textParser = pair.getValue();
         }
-        List<String> matchedSentences = findMatchedSentences(query, textParser.getSentences());
+        List<String> matchedSentences = findMatchedSentences(givenQuery, textParser.getSentences());
         for (String matchedSentence : matchedSentences) {
-            appController.addResult(query.getUrl(), matchedSentence);
+            appController.addResult(givenQuery.getUrl(), matchedSentence);
         }
         try {
-            visitedUrls.add(getDomain(query.getUrl()));
+            visitedUrls.add(getDomain(givenQuery.getUrl()));
         } catch (IllegalStateException e) {
             return;
         }
-        if (query.getDeep() != 0) {
+        if (givenQuery.getDepth() != 0) {
             List<String> linksInUrl = htmlParser.getLinksList();
             for (String linkInUrl : linksInUrl) {
                 String domain = getDomain(linkInUrl);
-                if (!visitedUrls.contains(domain) && query.validateSublink(linkInUrl)) {
+                if (!visitedUrls.contains(domain) && givenQuery.validateSublink(linkInUrl)) {
                     visitedUrls.add(domain);
-                    Query tmp = query.clone();
-                    tmp.setDeep(query.getDeep() - 1);
+                    GivenQuery tmp = givenQuery.clone();
+                    tmp.setDepth(givenQuery.getDepth() - 1);
                     tmp.setUrl(linkInUrl);
                     evalQuery(tmp);
                 }
@@ -84,10 +84,10 @@ public class Crawler implements Runnable {
         return getDomain(url);
     }
 
-    private List<String> findMatchedSentences(Query query, List<String> sentences) {
+    private List<String> findMatchedSentences(GivenQuery givenQuery, List<String> sentences) {
         List<String> matchedSentences = new ArrayList<>();
         for (String sentence : sentences) {
-            if (query.matches(sentence)) {
+            if (givenQuery.matches(sentence)) {
                 matchedSentences.add(sentence);
             }
         }

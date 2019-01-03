@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Query;
+import Model.GivenQuery;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -8,14 +8,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -109,13 +107,13 @@ public class QueryWindowController {
         }
         for (String url : urls) {
             try {
-                Query newQuery = new Query(url,
+                GivenQuery newGivenQuery = new GivenQuery(url,
                         queryTextField.getText(),
                         forbiddenWordsTextField.getText(),
                         Integer.decode(deepSpinner.getValue().toString()),
                         Boolean.valueOf(SubdomainsText.getSelectionModel().getSelectedItem().toString()));
 
-                appController.addQueryDialog(newQuery);
+                appController.addQueryDialog(newGivenQuery);
             } catch (IllegalArgumentException e) {
                 printWarning("There is bad query");
                 return;
