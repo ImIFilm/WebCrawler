@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="RegexpCreatorTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2018-11-29T14:25:05" hostname="DESKTOP-VIHMEGO" time="0.004">
-  <properties/>
-  <testcase name="creatorTest" classname="RegexpCreatorTest" time="0.0"/>
-  <testcase name="createdRegexpTest" classname="RegexpCreatorTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
