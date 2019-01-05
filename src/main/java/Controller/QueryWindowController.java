@@ -50,7 +50,7 @@ public class QueryWindowController {
         deepSpinner.decrement();
         deepSpinner.decrement();
         deepSpinner.decrement();
-        SubdomainsText.setValue(false);
+        //SubdomainsText.setValue(false);
         deepSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
             @Override
             public void changed(ObservableValue<? extends Integer> ov, Integer t, Integer t1) {

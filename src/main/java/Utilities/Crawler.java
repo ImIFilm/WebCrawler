@@ -2,6 +2,7 @@ package Utilities;
 
 import Controller.AppController;
 import Model.Query;
+import javafx.collections.ObservableList;
 import javafx.util.Pair;
 import org.jsoup.select.Elements;
 
@@ -14,6 +15,7 @@ public class Crawler implements Runnable {
     private AppController appController;
     private Map<String, Pair<HtmlParser, TextParser>> webPages = new HashMap<>();
     private Set<String> visitedUrls = new HashSet<>();
+    public static Map<String, Integer> data = new HashMap<>();
 
     public Crawler(AppController appController) {
         this.appController = appController;
@@ -27,8 +29,10 @@ public class Crawler implements Runnable {
     private void startCrawling() {
         for (Query query : appController.getQueries()) {
             System.out.println(query.getUrl());
+            if (!data.containsKey(query.getUrl())) data.put(query.getUrl(), 0);
             evalQuery(query);
             visitedUrls = new HashSet<>();
+            System.out.println(Arrays.asList(data));
         }
         System.out.println("Stoped crawling");
     }
@@ -50,6 +54,11 @@ public class Crawler implements Runnable {
         List<String> matchedSentences = findMatchedSentences(query, textParser.getSentences());
         for (String matchedSentence : matchedSentences) {
             appController.addResult(query.getUrl(), matchedSentence);
+
+            if (data.containsKey(query.getUrl())) {
+                int counter = data.get(query.getUrl());
+                data.replace(query.getUrl(), counter,counter+1);
+            }
         }
         //bo raz mi sie wysypalo, bo zamiast linku byl jakis email
         try{
@@ -86,6 +95,7 @@ public class Crawler implements Runnable {
         for (String sentence : sentences) {
             if (query.matches(sentence)) {
                 matchedSentences.add(sentence);
+
             }
         }
         return matchedSentences;

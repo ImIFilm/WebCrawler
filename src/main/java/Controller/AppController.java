@@ -18,6 +18,7 @@ public class AppController {
 
     private Stage primaryStage;
     private Stage dialogStage;
+
     private ObservableList<Query> queries;
     private ObservableList<UrlPerSentence> urlPerSentences;
 
@@ -45,7 +46,9 @@ public class AppController {
             //test values
             queries = FXCollections.observableArrayList();
             urlPerSentences = FXCollections.observableArrayList();
-            queries.add(new Query("https://onet.pl/", "polska", "", 2, true));
+            queries.add(new Query("https://onet.pl/", "polska", "", 0, false));
+            queries.add(new Query("https://wp.pl/", "polska", "", 0, false));
+            queries.add(new Query("https://o2.pl/", "polska", "", 1, false));
 
             controller.setTableViews(urlPerSentences, queries);
             // add layout to a scene and show them all
