@@ -79,6 +79,24 @@ public class MainWindowController {
         deepColumn.setCellValueFactory(dataValue -> new SimpleObjectProperty<>(dataValue.getValue().getDeep()));
         subdomainsColumn.setCellValueFactory(dataValue -> new SimpleObjectProperty<>(dataValue.getValue().getSubdomains()));
 
+
+        pie.setAnimated(false);
+
+        Timeline loopy = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                ObservableList<PieChart.Data> answer = FXCollections.observableArrayList();
+                Set<String> keys = Crawler.data.keySet();
+
+                for (String s: keys){
+                    answer.add(new PieChart.Data(s, Crawler.data.get(s)));
+                }
+                pie.setData(answer);
+            }
+        }));
+        loopy.setCycleCount(Timeline.INDEFINITE);
+        loopy.play();
     }
 
     @FXML
@@ -100,16 +118,10 @@ public class MainWindowController {
         for (String s: keys){
             answer.add(new PieChart.Data(s, Crawler.data.get(s)));
         }
-
-        /*answer.addAll(new PieChart.Data("java", 17),
-                new PieChart.Data("JavaFx",31),
-                new PieChart.Data("Swing",10),
-                new PieChart.Data("IO",20),
-                new PieChart.Data("NIO",21)
-        );*/
         pie.setData(answer);
 
     }
+
 
 
     public void setAppController(AppController appController) {

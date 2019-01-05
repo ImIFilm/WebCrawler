@@ -3,6 +3,7 @@ package Utilities;
 import Controller.AppController;
 import Model.Query;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 import javafx.util.Pair;
 import org.jsoup.select.Elements;
 
@@ -55,10 +56,16 @@ public class Crawler implements Runnable {
         for (String matchedSentence : matchedSentences) {
             appController.addResult(query.getUrl(), matchedSentence);
 
-            if (data.containsKey(query.getUrl())) {
-                int counter = data.get(query.getUrl());
-                data.replace(query.getUrl(), counter,counter+1);
+            Set<String> keys = data.keySet();
+
+            for (String s: keys){
+                Validator validator = new Validator(s,false);
+                if (validator.validateSublink(query.getUrl())) {
+                    int counter = data.get(s);
+                    data.replace(s, counter,counter+1);
+                }
             }
+
         }
         //bo raz mi sie wysypalo, bo zamiast linku byl jakis email
         try{
@@ -95,7 +102,6 @@ public class Crawler implements Runnable {
         for (String sentence : sentences) {
             if (query.matches(sentence)) {
                 matchedSentences.add(sentence);
-
             }
         }
         return matchedSentences;

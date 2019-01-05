@@ -15,7 +15,6 @@ import java.io.IOException;
 
 public class AppController {
 
-
     private Stage primaryStage;
     private Stage dialogStage;
 

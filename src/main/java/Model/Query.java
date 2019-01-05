@@ -1,8 +1,11 @@
 package Model;
 
+import Utilities.Crawler;
 import Utilities.RegexpCreator;
 import Utilities.SearchPattern;
 import Utilities.Validator;
+
+import java.util.Set;
 
 public class Query {
     private String url;
