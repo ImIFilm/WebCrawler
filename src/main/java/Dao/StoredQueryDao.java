@@ -1,10 +1,14 @@
 package Dao;
 
 import Model.Query;
+import Model.Result;
 import Model.StoredQuery;
 
 import javax.persistence.PersistenceException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class StoredQueryDao extends GenericDao<StoredQuery> {
 
@@ -36,11 +40,54 @@ public class StoredQueryDao extends GenericDao<StoredQuery> {
                     .getResultList();
             if(results.isEmpty()){
                 return false;
-
             }
+            return true;
         }catch (PersistenceException e){
             return false;
         }
-        return true;
+    }
+
+    public List<Result> downloadAllResults(StoredQuery query){
+        try{
+            return currentSession().createQuery(
+                    "Select r FROM Result r " +
+                            "WHERE r.storedQuery.url = :url and " +
+                            "r.storedQuery.sentenceRegex = :sentenceRegex and " +
+                            "r.storedQuery.forbiddenRegex = :forbiddenRegex and " +
+                            "r.storedQuery.depth = :depth and " +
+                            "r.storedQuery.subdomains = :subdomains", Result.class)
+                    .setParameter("url",query.getUrl())
+                    .setParameter("sentenceRegex",query.getSentencePattern().getPatternRegex())
+                    .setParameter("forbiddenRegex",query.getForbiddenPattern().getPatternRegex())
+                    .setParameter("depth",query.getDepth())
+                    .setParameter("subdomains",query.getSubdomains())
+                    .getResultList();
+        }catch (PersistenceException e){
+            return Collections.<Result>emptyList();
+        }
+    }
+
+    public StoredQuery getQuery(Query query){
+        try{
+            List<StoredQuery> results = currentSession().createQuery(
+                    "Select sq FROM StoredQuery sq " +
+                            "WHERE sq.url = :url and " +
+                            "sq.sentenceRegex = :sentenceRegex and " +
+                            "sq.forbiddenRegex = :forbiddenRegex and " +
+                            "sq.depth = :depth and " +
+                            "sq.subdomains = :subdomains", StoredQuery.class)
+                    .setParameter("url",query.getUrl())
+                    .setParameter("sentenceRegex",query.getSentencePattern().getPatternRegex())
+                    .setParameter("forbiddenRegex",query.getForbiddenPattern().getPatternRegex())
+                    .setParameter("depth",query.getDepth())
+                    .setParameter("subdomains",query.getSubdomains())
+                    .getResultList();
+            if(results.isEmpty()){
+                return null;
+            }
+            return results.get(0);
+        }catch (PersistenceException e){
+            return null;
+        }
     }
 }

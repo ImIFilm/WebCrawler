@@ -2,8 +2,12 @@ package Utilities;
 
 import Controller.AppController;
 import Model.GivenQuery;
+import Model.Result;
+import Model.StoredQuery;
+import Session.SessionService;
 import javafx.util.Pair;
 import org.jsoup.select.Elements;
+import Dao.*;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -13,7 +17,11 @@ public class Crawler implements Runnable {
 
     private AppController appController;
     private Map<String, Pair<HtmlParser, TextParser>> webPages = new HashMap<>();
-    private Set<String> visitedUrls = new HashSet<>();
+    private Map<String, Integer> visitedUrls = new HashMap<>();
+    private List<Result> results = Collections.<Result>emptyList();
+    private StoredQueryDao storedQueryDao = new StoredQueryDao();
+    private ResultDao resultDao = new ResultDao();
+    private StoredQuery storedQuery;
 
     public Crawler(AppController appController) {
         this.appController = appController;
@@ -25,11 +33,21 @@ public class Crawler implements Runnable {
     }
 
     private void startCrawling() {
+        SessionService.openSession();
         for (GivenQuery givenQuery : appController.getQueries()) {
+            if(storedQueryDao.exists(givenQuery)) {
+                storedQuery = storedQueryDao.getQuery(givenQuery);
+                results = storedQueryDao.downloadAllResults(storedQuery);
+            }
+            else {
+                storedQuery = storedQueryDao.create(givenQuery);
+            }
+
             evalQuery(givenQuery);
-            visitedUrls = new HashSet<>();
+            visitedUrls.clear();
         }
         System.out.println("Stoped crawling");
+        SessionService.closeSession();
     }
 
 
@@ -49,22 +67,27 @@ public class Crawler implements Runnable {
         List<String> matchedSentences = findMatchedSentences(givenQuery, textParser.getSentences());
         for (String matchedSentence : matchedSentences) {
             appController.addResult(givenQuery.getUrl(), matchedSentence);
+            if(results.isEmpty() || !results.contains(new Result(storedQuery, matchedSentence))){
+                resultDao.create(storedQuery, matchedSentence);
+            }
         }
         try {
-            visitedUrls.add(getDomain(givenQuery.getUrl()));
+            visitedUrls.put(getDomain(givenQuery.getUrl()), givenQuery.getDepth());
         } catch (IllegalStateException e) {
             return;
         }
         if (givenQuery.getDepth() != 0) {
             List<String> linksInUrl = htmlParser.getLinksList();
             for (String linkInUrl : linksInUrl) {
-                String domain = getDomain(linkInUrl);
-                if (!visitedUrls.contains(domain) && givenQuery.validateSublink(linkInUrl)) {
-                    visitedUrls.add(domain);
-                    GivenQuery tmp = givenQuery.clone();
-                    tmp.setDepth(givenQuery.getDepth() - 1);
-                    tmp.setUrl(linkInUrl);
-                    evalQuery(tmp);
+                String key = getDomain(linkInUrl);
+                if(!visitedUrls.containsKey(key) || visitedUrls.get(key) < givenQuery.getDepth()){
+                    if (givenQuery.validateSublink(linkInUrl)) {
+                        visitedUrls.put(key, givenQuery.getDepth());
+                        GivenQuery tmp = givenQuery.clone();
+                        tmp.setDepth(givenQuery.getDepth() - 1);
+                        tmp.setUrl(linkInUrl);
+                        evalQuery(tmp);
+                    }
                 }
             }
         }

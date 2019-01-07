@@ -1,5 +1,6 @@
 package Model;
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table
@@ -34,5 +35,19 @@ public class Result {
     }
     public StoredQuery getStoredQuery(){
         return this.storedQuery;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Result result = (Result) o;
+        return Objects.equals(sentence, result.sentence) &&
+                Objects.equals(storedQuery, result.storedQuery);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sentence, storedQuery);
     }
 }
