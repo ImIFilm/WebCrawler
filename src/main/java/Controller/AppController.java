@@ -2,16 +2,22 @@ package Controller;
 
 import Model.Query;
 import Utilities.Crawler;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
+import javafx.collections.ObservableSet;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AppController {
 
@@ -20,6 +26,7 @@ public class AppController {
 
     private ObservableList<Query> queries;
     private ObservableList<UrlPerSentence> urlPerSentences;
+    private ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList();
 
     public AppController(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -41,6 +48,7 @@ public class AppController {
             // set initial data into controller
             MainWindowController controller = loader.getController();
             controller.setAppController(this);
+            controller.setChartData(this.chartData);
 
             //test values
             queries = FXCollections.observableArrayList();
@@ -108,6 +116,15 @@ public class AppController {
 
     public void addResult(String url, String sentence) {
         urlPerSentences.add(new UrlPerSentence(url, sentence));
+    }
+
+    public void addChartData(Map<String, Integer> data){
+        Platform.runLater(()-> {
+                chartData.clear();
+                for(String val : data.keySet()){
+                    chartData.add(new PieChart.Data(val, data.get(val)));
+                }
+            });
     }
 
     public void startWebCrawling() {

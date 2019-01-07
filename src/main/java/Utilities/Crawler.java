@@ -16,7 +16,7 @@ public class Crawler implements Runnable {
     private AppController appController;
     private Map<String, Pair<HtmlParser, TextParser>> webPages = new HashMap<>();
     private Set<String> visitedUrls = new HashSet<>();
-    public static Map<String, Integer> data = new HashMap<>();
+    private Map<String, Integer> data = new HashMap<>();
 
     public Crawler(AppController appController) {
         this.appController = appController;
@@ -65,7 +65,7 @@ public class Crawler implements Runnable {
                     data.replace(s, counter,counter+1);
                 }
             }
-
+            appController.addChartData(data);
         }
         //bo raz mi sie wysypalo, bo zamiast linku byl jakis email
         try{

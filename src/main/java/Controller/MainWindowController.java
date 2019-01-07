@@ -79,24 +79,7 @@ public class MainWindowController {
         deepColumn.setCellValueFactory(dataValue -> new SimpleObjectProperty<>(dataValue.getValue().getDeep()));
         subdomainsColumn.setCellValueFactory(dataValue -> new SimpleObjectProperty<>(dataValue.getValue().getSubdomains()));
 
-
         pie.setAnimated(false);
-
-        Timeline loopy = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                ObservableList<PieChart.Data> answer = FXCollections.observableArrayList();
-                Set<String> keys = Crawler.data.keySet();
-
-                for (String s: keys){
-                    answer.add(new PieChart.Data(s, Crawler.data.get(s)));
-                }
-                pie.setData(answer);
-            }
-        }));
-        loopy.setCycleCount(Timeline.INDEFINITE);
-        loopy.play();
     }
 
     @FXML
@@ -112,21 +95,15 @@ public class MainWindowController {
 
     @FXML
     private void handleRefreshAction(ActionEvent event) {
-        ObservableList<PieChart.Data> answer = FXCollections.observableArrayList();
-        Set<String> keys = Crawler.data.keySet();
-
-        for (String s: keys){
-            answer.add(new PieChart.Data(s, Crawler.data.get(s)));
-        }
-        pie.setData(answer);
 
     }
-
 
 
     public void setAppController(AppController appController) {
         this.appController = appController;
     }
+
+    public void setChartData(ObservableList<PieChart.Data> data){ pie.setData(data);}
 
     public void setTableViews(ObservableList<UrlPerSentence> urlPerSentences, ObservableList<Query> queries){
         this.urlPerSentences = urlPerSentences;
@@ -134,8 +111,4 @@ public class MainWindowController {
         pageTableView.setItems(urlPerSentences);
         queryTableView.setItems(queries);
     }
-
-//    public void addQuery(Query query){
-//        queries.add(query);
-//    }
 }
