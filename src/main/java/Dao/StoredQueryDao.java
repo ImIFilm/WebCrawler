@@ -3,6 +3,7 @@ package Dao;
 import Model.Query;
 import Model.Result;
 import Model.StoredQuery;
+import Utilities.SearchPattern;
 
 import javax.persistence.PersistenceException;
 import java.util.Collection;
@@ -85,7 +86,10 @@ public class StoredQueryDao extends GenericDao<StoredQuery> {
             if(results.isEmpty()){
                 return null;
             }
-            return results.get(0);
+            StoredQuery result = results.get(0);
+            result.setSentencePattern(new SearchPattern(result.getSentenceRegex()));
+            result.setForbiddenPattern(new SearchPattern(result.getForbiddenRegex()));
+            return result;
         }catch (PersistenceException e){
             return null;
         }

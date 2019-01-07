@@ -36,7 +36,7 @@ public class Crawler implements Runnable {
         SessionService.openSession();
         for (GivenQuery givenQuery : appController.getQueries()) {
             if(storedQueryDao.exists(givenQuery)) {
-                storedQuery = storedQueryDao.getQuery(givenQuery);
+                storedQuery = new StoredQuery(storedQueryDao.getQuery(givenQuery));
                 results = storedQueryDao.downloadAllResults(storedQuery);
             }
             else {
@@ -66,8 +66,8 @@ public class Crawler implements Runnable {
         }
         List<String> matchedSentences = findMatchedSentences(givenQuery, textParser.getSentences());
         for (String matchedSentence : matchedSentences) {
-            appController.addResult(givenQuery.getUrl(), matchedSentence);
             if(results.isEmpty() || !results.contains(new Result(storedQuery, matchedSentence))){
+                appController.addResult(givenQuery.getUrl(), matchedSentence);
                 resultDao.create(storedQuery, matchedSentence);
             }
         }

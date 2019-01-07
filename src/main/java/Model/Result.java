@@ -12,7 +12,7 @@ public class Result {
     private int id;
     private String sentence;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     private StoredQuery storedQuery;
 
 
