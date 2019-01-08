@@ -1,11 +1,15 @@
 package Utilities;
 
+import org.jsoup.select.Elements;
 import Controller.AppController;
-import Model.Query;
+import Model.GivenQuery;
+import Model.Result;
+import Model.StoredQuery;
+import Session.SessionService;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
 import javafx.util.Pair;
-import org.jsoup.select.Elements;
+import Dao.*;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -15,7 +19,11 @@ public class Crawler implements Runnable {
 
     private AppController appController;
     private Map<String, Pair<HtmlParser, TextParser>> webPages = new HashMap<>();
-    private Set<String> visitedUrls = new HashSet<>();
+    private Map<String, Integer> visitedUrls = new HashMap<>();
+    private List<Result> results = Collections.<Result>emptyList();
+    private StoredQueryDao storedQueryDao = new StoredQueryDao();
+    private ResultDao resultDao = new ResultDao();
+    private StoredQuery storedQuery;
     private Map<String, Integer> data = new HashMap<>();
 
     public Crawler(AppController appController) {
@@ -28,79 +36,98 @@ public class Crawler implements Runnable {
     }
 
     private void startCrawling() {
-        for (Query query : appController.getQueries()) {
-            System.out.println(query.getUrl());
-            if (!data.containsKey(query.getUrl())) data.put(query.getUrl(), 0);
-            evalQuery(query);
-            visitedUrls = new HashSet<>();
+        SessionService.openSession();
+        for (GivenQuery givenQuery : appController.getQueries()) {
+            if(storedQueryDao.exists(givenQuery)) {
+                storedQuery = new StoredQuery(storedQueryDao.getQuery(givenQuery));
+                results = storedQueryDao.downloadAllResults(storedQuery);
+            }
+            else {
+                storedQuery = storedQueryDao.create(givenQuery);
+            }
+
+            if (!data.containsKey(givenQuery.getUrl())) data.put(givenQuery.getUrl(), 0);
+            evalQuery(givenQuery);
+            visitedUrls.clear();
             System.out.println(Arrays.asList(data));
         }
         System.out.println("Stoped crawling");
+        SessionService.closeSession();
     }
 
 
-    private void evalQuery(Query query) {
+    private void evalQuery(GivenQuery givenQuery) {
         HtmlParser htmlParser;
         TextParser textParser;
-        if (!webPages.containsKey(query.getUrl())) {
-            htmlParser = new HtmlParser(query.getUrl());
+        if (!webPages.containsKey(givenQuery.getUrl())) {
+            htmlParser = new HtmlParser(givenQuery.getUrl());
             Elements downloadedWebsite = htmlParser.parseToText();
             textParser = new TextParser(downloadedWebsite);
-            webPages.put(query.getUrl(), new Pair(htmlParser, textParser));
+            webPages.put(givenQuery.getUrl(), new Pair(htmlParser, textParser));
         } else {
-            Pair<HtmlParser, TextParser> pair = webPages.get(query.getUrl());
+            Pair<HtmlParser, TextParser> pair = webPages.get(givenQuery.getUrl());
             htmlParser = pair.getKey();
             textParser = pair.getValue();
         }
-        List<String> matchedSentences = findMatchedSentences(query, textParser.getSentences());
+        List<String> matchedSentences = findMatchedSentences(givenQuery, textParser.getSentences());
         for (String matchedSentence : matchedSentences) {
-            appController.addResult(query.getUrl(), matchedSentence);
+            if(results.isEmpty() || !results.contains(new Result(storedQuery, matchedSentence))){
+                appController.addResult(givenQuery.getUrl(), matchedSentence);
+                resultDao.create(storedQuery, matchedSentence);
+            }
+            appController.addResult(givenQuery.getUrl(), matchedSentence);
 
             Set<String> keys = data.keySet();
 
             for (String s: keys){
                 Validator validator = new Validator(s,false);
-                if (validator.validateSublink(query.getUrl())) {
+                if (validator.validateSublink(givenQuery.getUrl())) {
                     int counter = data.get(s);
                     data.replace(s, counter,counter+1);
                 }
             }
             appController.addChartData(data);
         }
-        //bo raz mi sie wysypalo, bo zamiast linku byl jakis email
-        try{
-            visitedUrls.add(getDomain(query.getUrl()));
-        }catch (IllegalStateException e){
+        try {
+            visitedUrls.put(getDomain(givenQuery.getUrl()), givenQuery.getDepth());
+        } catch (IllegalStateException e) {
             return;
         }
-        System.out.println("Actual deep = " + query.getDeep());
-        if (query.getDeep() != 0) {
+        if (givenQuery.getDepth() != 0) {
             List<String> linksInUrl = htmlParser.getLinksList();
             for (String linkInUrl : linksInUrl) {
-                String domain = getDomain(linkInUrl);
-                if (!visitedUrls.contains(domain) && query.validateSublink(linkInUrl)) {
-                    System.out.println(linkInUrl);
-                    visitedUrls.add(domain);
-                    Query tmp = new Query(linkInUrl, "nothing", "", query.getDeep() - 1, query.getSubdomains());
-                    tmp.setForbiddenPattern(query.getForbiddenPattern());
-                    tmp.setSentencePattern(query.getSentencePattern());
-                    evalQuery(tmp);
+                String key = getDomain(linkInUrl);
+                if(!visitedUrls.containsKey(key) || visitedUrls.get(key) < givenQuery.getDepth()){
+                    if (givenQuery.validateSublink(linkInUrl)) {
+                        visitedUrls.put(key, givenQuery.getDepth());
+                        GivenQuery tmp = givenQuery.clone();
+                        tmp.setDepth(givenQuery.getDepth() - 1);
+                        tmp.setUrl(linkInUrl);
+                        evalQuery(tmp);
+                    }
                 }
             }
         }
     }
 
-    private String getDomain(String url){
+    private String getDomain(String url) {
         Pattern pattern = Pattern.compile("(https?://w?w?w?[.]?)([^:^/]*)(:\\d*)?(.*)?");
         Matcher matcher = pattern.matcher(url);
         matcher.find();
+        if (matcher.group(4) == null || matcher.group(4).isEmpty()) {
+            return matcher.group(2) + "/";
+        }
         return matcher.group(2) + matcher.group(4);
     }
 
-    private List<String> findMatchedSentences(Query query, List<String> sentences) {
+    public String getDomainTest(String url) {
+        return getDomain(url);
+    }
+
+    private List<String> findMatchedSentences(GivenQuery givenQuery, List<String> sentences) {
         List<String> matchedSentences = new ArrayList<>();
         for (String sentence : sentences) {
-            if (query.matches(sentence)) {
+            if (givenQuery.matches(sentence)) {
                 matchedSentences.add(sentence);
             }
         }

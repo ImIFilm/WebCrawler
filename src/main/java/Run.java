@@ -3,6 +3,7 @@ import Controller.AppController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+
 public class Run extends Application {
 
     private Stage primaryStage;
@@ -16,5 +17,6 @@ public class Run extends Application {
 
     public static void main(String[] args) {
         launch(args);
+
     }
 }

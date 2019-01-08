@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class HtmlParserTest {
+public class TextParserTest {
     @Test
     public void parserTest() {
 
@@ -18,10 +18,9 @@ public class HtmlParserTest {
         String fileName = "src/test/java/test.html";
         HtmlParser htmlParser2 = new HtmlParser(url);
         TextParser textParser2 = new TextParser(htmlParser2.parseToTextFromFile(fileName));
-        List<String> linksInHtmlFile = htmlParser2.findLinksInHtmlFile(fileName);
 
-        assertEquals(linksInHtmlFile,Arrays.asList("http://deep1.html/"));
-        assertEquals(textParser2.getSentences(),
+        List<String> sentences = textParser2.getSentences();
+        assertEquals(sentences,
                 Arrays.asList("Pies i ala ma kota. ", "Ladna dzis pogoda. ", "Ladnego ala ma kota. ", "Ala i ladny pies."));
 
     }

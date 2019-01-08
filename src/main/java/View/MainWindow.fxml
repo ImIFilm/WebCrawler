@@ -50,14 +50,6 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </VBox.margin>
                 </Button>
-            <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#handleRefreshAction" prefHeight="25.0" prefWidth="141.0" text="Refresh charts" textAlignment="CENTER">
-               <VBox.margin>
-                  <Insets top="90.0" />
-               </VBox.margin>
-               <opaqueInsets>
-                  <Insets bottom="5.0" left="5.0" right="5.0" />
-               </opaqueInsets>
-            </Button>
             </children>
             <BorderPane.margin>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -65,7 +57,7 @@
         </VBox>
     </right>
    <bottom>
-      <PieChart fx:id="pie" BorderPane.alignment="CENTER" />
+      <PieChart fx:id="pie" prefHeight="194.0" prefWidth="800.0" BorderPane.alignment="CENTER" />
    </bottom>
 
 </BorderPane>

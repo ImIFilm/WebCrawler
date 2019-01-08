@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Query;
+import Model.GivenQuery;
 import Utilities.Crawler;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -23,8 +23,8 @@ public class AppController {
 
     private Stage primaryStage;
     private Stage dialogStage;
+    private ObservableList<GivenQuery> queries;
 
-    private ObservableList<Query> queries;
     private ObservableList<UrlPerSentence> urlPerSentences;
     private ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList();
 
@@ -53,9 +53,8 @@ public class AppController {
             //test values
             queries = FXCollections.observableArrayList();
             urlPerSentences = FXCollections.observableArrayList();
-            queries.add(new Query("https://onet.pl/", "polska", "", 0, false));
-            queries.add(new Query("https://wp.pl/", "polska", "", 0, false));
-            queries.add(new Query("https://o2.pl/", "polska", "", 1, false));
+//            queries.add(new GivenQuery("http://galaxy.agh.edu.pl/~kzajac/dydakt/tw/index.html", "wątek", "", 2, true));
+            queries.add(new GivenQuery("http://onet.pl", "Polska", "", 0, true));
 
             controller.setTableViews(urlPerSentences, queries);
             // add layout to a scene and show them all
@@ -81,7 +80,7 @@ public class AppController {
             controller.setAppController(this);
             // Create the dialog Stage.
             dialogStage = new Stage();
-            dialogStage.setTitle("Add Query");
+            dialogStage.setTitle("Add GivenQuery");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -101,16 +100,12 @@ public class AppController {
         dialogStage.close();
     }
 
-    public void addQueryDialog(String url,
-                               String sentencePattern,
-                               String forbiddenWords,
-                               Integer deep,
-                               boolean ifMine) {
+    public void addQueryDialog(GivenQuery givenQuery) {
 
-        queries.add(new Query(url, sentencePattern, forbiddenWords, deep, ifMine));
+        queries.add(givenQuery);
     }
 
-    public ObservableList<Query> getQueries() {
+    public ObservableList<GivenQuery> getQueries() {
         return queries;
     }
 
@@ -134,4 +129,5 @@ public class AppController {
         Thread thread = new Thread(crawler);
         thread.start();
     }
+
 }

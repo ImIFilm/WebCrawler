@@ -1,43 +1,15 @@
 package Model;
 
-import Utilities.Crawler;
-import Utilities.RegexpCreator;
 import Utilities.SearchPattern;
-import Utilities.Validator;
-
-import java.util.Set;
 
 public class Query {
-    private String url;
-    private SearchPattern sentencePattern;
-    private SearchPattern forbiddenPattern;
-    private String sentencePatternString;
-    private String forbiddenPatternString;
-    private Integer deep;
-    private boolean subdomains;
+    protected String url;
+    protected SearchPattern sentencePattern;
+    protected SearchPattern forbiddenPattern;
+    protected Integer depth;
+    protected boolean subdomains;
 
-    private Validator validator;
-
-    public Query(String url,
-                 String sentence,
-                 String forbiddenWords,
-                 int deep,
-                 boolean subdomains) {
-        if (isEmpty(sentence) && isEmpty(forbiddenWords)) {
-            System.out.println("bad query");
-            throw new IllegalArgumentException();
-        }
-
-        this.url = url;
-        this.deep = deep;
-        this.subdomains = subdomains;
-        this.sentencePatternString = sentence;
-        this.forbiddenPatternString = forbiddenWords;
-        this.sentencePattern = new SearchPattern(RegexpCreator.getSearchExpr(sentence));
-        this.forbiddenPattern = new SearchPattern(RegexpCreator.getSearchExpr(forbiddenWords));
-
-        this.validator = new Validator(url,subdomains);
-    }
+//    public Query(String url, SearchPattern sentencePattern, SearchPattern forbiddenPattern)
 
     public String getUrl() {
         return url;
@@ -51,20 +23,12 @@ public class Query {
         return forbiddenPattern;
     }
 
-    public int getDeep() {
-        return deep;
+    public int getDepth() {
+        return depth;
     }
 
     public boolean getSubdomains() {
         return subdomains;
-    }
-
-    public String getSentencePatternString() {
-        return sentencePatternString;
-    }
-
-    public String getForbiddenPatternString() {
-        return forbiddenPatternString;
     }
 
     public void setSentencePattern(SearchPattern sentencePattern) {
@@ -75,20 +39,20 @@ public class Query {
         this.forbiddenPattern = forbiddenPattern;
     }
 
-    public void setDeep(int deep) {
-        this.deep = deep;
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
 
-    public boolean matches(String fullSentence) {
-        return sentencePattern.matches(fullSentence) && !forbiddenPattern.matches(fullSentence);
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    private boolean isEmpty(String sentence) {
-        return sentence.matches("^\\s*$");
-    }
 
-    public boolean validateSublink(String sub){
-        return this.validator.validateSublink(sub);
+    public boolean equals(Query query){
+        return this.url.equals(query.getUrl()) &&
+            this.sentencePattern.getPatternRegex().equals(query.getSentencePattern().getPatternRegex()) &&
+            this.forbiddenPattern.getPatternRegex().equals(query.getForbiddenPattern().getPatternRegex()) &&
+            this.depth == query.getDepth() && this.subdomains == query.getSubdomains();
     }
 
 }

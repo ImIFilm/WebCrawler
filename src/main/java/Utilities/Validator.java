@@ -9,16 +9,15 @@ public class Validator {
     private String link;
     private Boolean subdomains;
 
-    public Validator(String link, Boolean subdomains){
+    public Validator(String link, Boolean subdomains) {
         this.link = link;
         this.subdomains = subdomains;
     }
 
-    public boolean validateSublink(String sub){
-        if(subdomains){
+    public boolean validateSublink(String sub) {
+        if (subdomains) {
             return isSubdomain(sub) || isContinuation(sub);
-        }
-        else{
+        } else {
             return isContinuation(sub);
         }
     }
@@ -33,7 +32,7 @@ public class Validator {
                     .map(e -> e.equals(".") ? "\\." : e)
                     .reduce("", String::concat);
 
-            pattern = Pattern.compile(String.format("^(http[s]?:\\/{2})?(www\\.)?(\\w+\\.)+\\b%s\\b(\\/\\S*)*$", domain));
+            pattern = Pattern.compile(String.format(".+\\b%s\\b(\\/\\S*)*$", domain));
             matcher = pattern.matcher(sub);
             return matcher.find();
         } catch (IllegalStateException e) {
@@ -41,7 +40,7 @@ public class Validator {
         }
     }
 
-    private boolean isContinuation(String sub){
+    private boolean isContinuation(String sub) {
         try {
             Pattern pattern = Pattern.compile("^((http[s]?:\\/{2})?(www\\.)?((\\w+\\.)+\\w+))(\\/\\S*)*$");
             Matcher matcher = pattern.matcher(link);
@@ -51,8 +50,7 @@ public class Validator {
             matcher.find();
             String snd_domain = matcher.group(4);
             return fst_domain.equals(snd_domain);
-        }
-        catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             return false;
         }
 

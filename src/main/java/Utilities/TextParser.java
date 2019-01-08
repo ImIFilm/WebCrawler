@@ -1,10 +1,8 @@
 package Utilities;
-//import com.sun.deploy.util.StringUtils;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-//import javax.xml.bind.Element;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,16 +18,16 @@ public class TextParser {
     }
 
     private ArrayList<String> makeSentences(Elements whatIsInWebsite) {
-        String div;
+        String elementString;
         ArrayList<String> newest = new ArrayList<>();
         for (Element element : whatIsInWebsite) {
-            div = element.text();
+            elementString = element.text();
             BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.US);
-            iterator.setText(div);
+            iterator.setText(elementString);
             List<String> result = new ArrayList<>();
             int start = iterator.first();
             for (int end = iterator.next(); end != BreakIterator.DONE; start = end, end = iterator.next()) {
-                result.add(div.substring(start, end));
+                result.add(elementString.substring(start, end));
             }
             newest.addAll(result);
         }

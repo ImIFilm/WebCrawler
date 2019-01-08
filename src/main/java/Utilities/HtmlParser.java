@@ -48,7 +48,7 @@ public class HtmlParser {
         Elements links = doc.select("a[href]");
         linksList = new ArrayList<>();
         for (Element link : links) {
-            if(!link.attr("abs:href").isEmpty())
+            if (!link.attr("abs:href").isEmpty())
                 linksList.add(link.attr("abs:href"));
         }
     }
@@ -73,7 +73,7 @@ public class HtmlParser {
     }
 
     private Elements parseToTextFromDoc(Document doc) {
-        return doc.select("div");
+        return doc.select("html");
     }
 
     public List<String> getLinksList() {
