@@ -47,8 +47,9 @@ public class Query {
         this.url = url;
     }
 
-
-    public boolean equals(Query query){
+    @Override
+    public boolean equals(Object object){
+        Query query = (Query)object;
         return this.url.equals(query.getUrl()) &&
             this.sentencePattern.getPatternRegex().equals(query.getSentencePattern().getPatternRegex()) &&
             this.forbiddenPattern.getPatternRegex().equals(query.getForbiddenPattern().getPatternRegex()) &&

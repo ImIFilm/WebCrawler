@@ -32,7 +32,9 @@ public class StoredQuery extends Query {
         this.subdomains = query.getSubdomains();
         super.subdomains = query.getSubdomains();
         this.sentencePattern = query.getSentencePattern();
+        super.sentencePattern = query.getSentencePattern();
         this.forbiddenPattern = query.getForbiddenPattern();
+        super.forbiddenPattern = query.getForbiddenPattern();
     }
 
     public String getUrl(){

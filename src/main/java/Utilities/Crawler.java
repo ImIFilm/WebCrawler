@@ -69,21 +69,22 @@ public class Crawler implements Runnable {
         }
         List<String> matchedSentences = findMatchedSentences(givenQuery, textParser.getSentences());
         for (String matchedSentence : matchedSentences) {
-            if(results.isEmpty() || !results.contains(new Result(storedQuery, matchedSentence))){
+            if(results.isEmpty() || !results.contains(new Result(storedQuery, matchedSentence))) {
                 appController.addResult(givenQuery.getUrl(), matchedSentence);
                 resultDao.create(storedQuery, matchedSentence);
-            }
 
-            Set<String> keys = data.keySet();
 
-            for (String s: keys){
-                Validator validator = new Validator(s,false);
-                if (validator.validateSublink(givenQuery.getUrl())) {
-                    int counter = data.get(s);
-                    data.replace(s, counter,counter+1);
+                Set<String> keys = data.keySet();
+
+                for (String s : keys) {
+                    Validator validator = new Validator(s, false);
+                    if (validator.validateSublink(givenQuery.getUrl())) {
+                        int counter = data.get(s);
+                        data.replace(s, counter, counter + 1);
+                    }
                 }
+                appController.addChartData(data);
             }
-            appController.addChartData(data);
         }
         try {
             visitedUrls.put(givenQuery.getUrl(), givenQuery.getDepth());

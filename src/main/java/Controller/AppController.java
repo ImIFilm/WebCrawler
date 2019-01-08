@@ -53,7 +53,7 @@ public class AppController {
             //test values
             queries = FXCollections.observableArrayList();
             urlPerSentences = FXCollections.observableArrayList();
-//            queries.add(new GivenQuery("http://galaxy.agh.edu.pl/~kzajac/dydakt/tw/index.html", "wątek", "", 2, true));
+            queries.add(new GivenQuery("http://galaxy.agh.edu.pl/~kzajac/dydakt/tw/index.html", "wątek", "", 2, true));
             queries.add(new GivenQuery("http://onet.pl", "Polska", "", 0, true));
 
             controller.setTableViews(urlPerSentences, queries);
