@@ -42,8 +42,8 @@ public class Result {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Result result = (Result) o;
-        return Objects.equals(sentence, result.sentence) &&
-                Objects.equals(storedQuery, result.storedQuery);
+        return sentence.equals(result.sentence) &&
+                storedQuery.equals(result.storedQuery);
     }
 
     @Override

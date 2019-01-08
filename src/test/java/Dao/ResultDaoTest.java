@@ -9,6 +9,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class ResultDaoTest {
@@ -50,5 +54,17 @@ public class ResultDaoTest {
         String sentence1 = "ala";
         Result result1 = resultDao.create(storedQuery1,sentence1);
         assertEquals(true,resultDao.exists(result1));
+    }
+
+    @Test
+    public void equalTest(){
+        Query query1 = new GivenQuery("http://onet.pl", "Polska", "", 0, true);
+        StoredQuery storedQuery1 = storedQueryDao.create(query1);
+        String sentence1 = "ala";
+        Result result1 = resultDao.create(storedQuery1,sentence1);
+        Result result2 = resultDao.create(storedQuery1, sentence1);
+        List<Result> results = new ArrayList<>();
+        results.add(result2);
+        assertEquals(true, results.contains(result2));
     }
 }

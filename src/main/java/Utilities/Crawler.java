@@ -18,7 +18,7 @@ public class Crawler implements Runnable {
     private AppController appController;
     private Map<String, Pair<WebPages, TextParser>> webPages = new HashMap<>();
     private Map<String, Integer> visitedUrls = new HashMap<>();
-    private List<Result> results = Collections.<Result>emptyList();
+    private List<Result> results = new ArrayList<>();
     private StoredQueryDao storedQueryDao = new StoredQueryDao();
     private ResultDao resultDao = new ResultDao();
     private StoredQuery storedQuery;
@@ -73,7 +73,6 @@ public class Crawler implements Runnable {
                 appController.addResult(givenQuery.getUrl(), matchedSentence);
                 resultDao.create(storedQuery, matchedSentence);
             }
-            //appController.addResult(givenQuery.getUrl(), matchedSentence);
 
             Set<String> keys = data.keySet();
 
