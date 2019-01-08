@@ -1,4 +1,4 @@
-import Utilities.HtmlParser;
+import Utilities.WebPages;
 import Utilities.TextParser;
 import org.junit.Test;
 
@@ -12,12 +12,12 @@ public class TextParserTest {
     public void parserTest() {
 
         String url = "http://onet.pl/";
-        HtmlParser htmlParser1 = new HtmlParser(url);
-        assertEquals(url,htmlParser1.getUrl());
+        WebPages webPages1 = new WebPages(url);
+        assertEquals(url, webPages1.getUrl());
 
         String fileName = "src/test/java/test.html";
-        HtmlParser htmlParser2 = new HtmlParser(url);
-        TextParser textParser2 = new TextParser(htmlParser2.parseToTextFromFile(fileName));
+        WebPages webPages2 = new WebPages(url);
+        TextParser textParser2 = new TextParser(webPages2.parseToTextFromFile(fileName));
 
         List<String> sentences = textParser2.getSentences();
         assertEquals(sentences,

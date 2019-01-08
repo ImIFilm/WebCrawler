@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HtmlParser {
+public class WebPages {
     private String url;
     private List<String> linksList;
 
-    public HtmlParser(String url) {
+    public WebPages(String url) {
         this.url = url;
         findLinksInHtmlUrl();
     }

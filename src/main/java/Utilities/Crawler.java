@@ -6,8 +6,6 @@ import Model.GivenQuery;
 import Model.Result;
 import Model.StoredQuery;
 import Session.SessionService;
-import javafx.collections.ObservableList;
-import javafx.scene.chart.PieChart;
 import javafx.util.Pair;
 import Dao.*;
 
@@ -18,7 +16,7 @@ import java.util.regex.Pattern;
 public class Crawler implements Runnable {
 
     private AppController appController;
-    private Map<String, Pair<HtmlParser, TextParser>> webPages = new HashMap<>();
+    private Map<String, Pair<WebPages, TextParser>> webPages = new HashMap<>();
     private Map<String, Integer> visitedUrls = new HashMap<>();
     private List<Result> results = Collections.<Result>emptyList();
     private StoredQueryDao storedQueryDao = new StoredQueryDao();
@@ -57,16 +55,16 @@ public class Crawler implements Runnable {
 
 
     private void evalQuery(GivenQuery givenQuery) {
-        HtmlParser htmlParser;
+        WebPages webPages;
         TextParser textParser;
-        if (!webPages.containsKey(givenQuery.getUrl())) {
-            htmlParser = new HtmlParser(givenQuery.getUrl());
-            Elements downloadedWebsite = htmlParser.parseToText();
+        if (!this.webPages.containsKey(givenQuery.getUrl())) {
+            webPages = new WebPages(givenQuery.getUrl());
+            Elements downloadedWebsite = webPages.parseToText();
             textParser = new TextParser(downloadedWebsite);
-            webPages.put(givenQuery.getUrl(), new Pair(htmlParser, textParser));
+            this.webPages.put(givenQuery.getUrl(), new Pair(webPages, textParser));
         } else {
-            Pair<HtmlParser, TextParser> pair = webPages.get(givenQuery.getUrl());
-            htmlParser = pair.getKey();
+            Pair<WebPages, TextParser> pair = this.webPages.get(givenQuery.getUrl());
+            webPages = pair.getKey();
             textParser = pair.getValue();
         }
         List<String> matchedSentences = findMatchedSentences(givenQuery, textParser.getSentences());
@@ -75,7 +73,7 @@ public class Crawler implements Runnable {
                 appController.addResult(givenQuery.getUrl(), matchedSentence);
                 resultDao.create(storedQuery, matchedSentence);
             }
-            appController.addResult(givenQuery.getUrl(), matchedSentence);
+            //appController.addResult(givenQuery.getUrl(), matchedSentence);
 
             Set<String> keys = data.keySet();
 
@@ -89,14 +87,14 @@ public class Crawler implements Runnable {
             appController.addChartData(data);
         }
         try {
-            visitedUrls.put(getDomain(givenQuery.getUrl()), givenQuery.getDepth());
+            visitedUrls.put(givenQuery.getUrl(), givenQuery.getDepth());
         } catch (IllegalStateException e) {
             return;
         }
         if (givenQuery.getDepth() != 0) {
-            List<String> linksInUrl = htmlParser.getLinksList();
+            List<String> linksInUrl = webPages.getLinksList();
             for (String linkInUrl : linksInUrl) {
-                String key = getDomain(linkInUrl);
+                String key = linkInUrl;
                 if(!visitedUrls.containsKey(key) || visitedUrls.get(key) < givenQuery.getDepth()){
                     if (givenQuery.validateSublink(linkInUrl)) {
                         visitedUrls.put(key, givenQuery.getDepth());
