@@ -15,4 +15,8 @@ public class SearchPattern {
         Matcher matcher = pattern.matcher(sentence.toLowerCase());
         return matcher.find();
     }
+
+    public String getPatternRegex() {
+        return patternRegex;
+    }
 }

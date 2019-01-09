@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Query;
+import Model.GivenQuery;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -109,13 +109,13 @@ public class QueryWindowController {
         }
         for (String url : urls) {
             try {
-                Query newQuery = new Query(url,
+                GivenQuery newGivenQuery = new GivenQuery(url,
                         queryTextField.getText(),
                         forbiddenWordsTextField.getText(),
                         Integer.decode(deepSpinner.getValue().toString()),
                         Boolean.valueOf(SubdomainsText.getSelectionModel().getSelectedItem().toString()));
 
-                appController.addQueryDialog(newQuery);
+                appController.addQueryDialog(newGivenQuery);
             } catch (IllegalArgumentException e) {
                 printWarning("There is bad query");
                 return;

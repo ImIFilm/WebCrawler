@@ -1,9 +1,13 @@
 package Utilities;
 
-import Controller.AppController;
-import Model.Query;
-import javafx.util.Pair;
 import org.jsoup.select.Elements;
+import Controller.AppController;
+import Model.GivenQuery;
+import Model.Result;
+import Model.StoredQuery;
+import Session.SessionService;
+import javafx.util.Pair;
+import Dao.*;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -12,8 +16,13 @@ import java.util.regex.Pattern;
 public class Crawler implements Runnable {
 
     private AppController appController;
-    private Map<String, Pair<HtmlParser, TextParser>> webPages = new HashMap<>();
-    private Set<String> visitedUrls = new HashSet<>();
+    private Map<String, Pair<WebPages, TextParser>> webPages = new HashMap<>();
+    private Map<String, Integer> visitedUrls = new HashMap<>();
+    private List<Result> results = new ArrayList<>();
+    private StoredQueryDao storedQueryDao = new StoredQueryDao();
+    private ResultDao resultDao = new ResultDao();
+    private StoredQuery storedQuery;
+    private Map<String, Integer> data = new HashMap<>();
 
     public Crawler(AppController appController) {
         this.appController = appController;
@@ -25,46 +34,75 @@ public class Crawler implements Runnable {
     }
 
     private void startCrawling() {
-        for (Query query : appController.getQueries()) {
-            evalQuery(query);
-            visitedUrls = new HashSet<>();
+        SessionService.openSession();
+        for (GivenQuery givenQuery : appController.getQueries()) {
+            if(storedQueryDao.exists(givenQuery)) {
+                storedQuery = new StoredQuery(storedQueryDao.getQuery(givenQuery));
+                results = storedQueryDao.downloadAllResults(storedQuery);
+            }
+            else {
+                storedQuery = storedQueryDao.create(givenQuery);
+            }
+
+            if (!data.containsKey(givenQuery.getUrl())) data.put(givenQuery.getUrl(), 0);
+            evalQuery(givenQuery);
+            visitedUrls.clear();
+            System.out.println(Arrays.asList(data));
         }
         System.out.println("Stoped crawling");
+        SessionService.closeSession();
     }
 
 
-    private void evalQuery(Query query) {
-        HtmlParser htmlParser;
+    private void evalQuery(GivenQuery givenQuery) {
+        WebPages webPages;
         TextParser textParser;
-        if (!webPages.containsKey(query.getUrl())) {
-            htmlParser = new HtmlParser(query.getUrl());
-            Elements downloadedWebsite = htmlParser.parseToText();
+        if (!this.webPages.containsKey(givenQuery.getUrl())) {
+            webPages = new WebPages(givenQuery.getUrl());
+            Elements downloadedWebsite = webPages.parseToText();
             textParser = new TextParser(downloadedWebsite);
-            webPages.put(query.getUrl(), new Pair(htmlParser, textParser));
+            this.webPages.put(givenQuery.getUrl(), new Pair(webPages, textParser));
         } else {
-            Pair<HtmlParser, TextParser> pair = webPages.get(query.getUrl());
-            htmlParser = pair.getKey();
+            Pair<WebPages, TextParser> pair = this.webPages.get(givenQuery.getUrl());
+            webPages = pair.getKey();
             textParser = pair.getValue();
         }
-        List<String> matchedSentences = findMatchedSentences(query, textParser.getSentences());
+        List<String> matchedSentences = findMatchedSentences(givenQuery, textParser.getSentences());
         for (String matchedSentence : matchedSentences) {
-            appController.addResult(query.getUrl(), matchedSentence);
+            if(results.isEmpty() || !results.contains(new Result(storedQuery, matchedSentence))) {
+                appController.addResult(givenQuery.getUrl(), matchedSentence);
+                resultDao.create(storedQuery, matchedSentence);
+
+
+                Set<String> keys = data.keySet();
+
+                for (String s : keys) {
+                    Validator validator = new Validator(s, false);
+                    if (validator.validateSublink(givenQuery.getUrl())) {
+                        int counter = data.get(s);
+                        data.replace(s, counter, counter + 1);
+                    }
+                }
+                appController.addChartData(data);
+            }
         }
         try {
-            visitedUrls.add(getDomain(query.getUrl()));
+            visitedUrls.put(givenQuery.getUrl(), givenQuery.getDepth());
         } catch (IllegalStateException e) {
             return;
         }
-        if (query.getDeep() != 0) {
-            List<String> linksInUrl = htmlParser.getLinksList();
+        if (givenQuery.getDepth() != 0) {
+            List<String> linksInUrl = webPages.getLinksList();
             for (String linkInUrl : linksInUrl) {
-                String domain = getDomain(linkInUrl);
-                if (!visitedUrls.contains(domain) && query.validateSublink(linkInUrl)) {
-                    visitedUrls.add(domain);
-                    Query tmp = query.clone();
-                    tmp.setDeep(query.getDeep() - 1);
-                    tmp.setUrl(linkInUrl);
-                    evalQuery(tmp);
+                String key = linkInUrl;
+                if(!visitedUrls.containsKey(key) || visitedUrls.get(key) < givenQuery.getDepth()){
+                    if (givenQuery.validateSublink(linkInUrl)) {
+                        visitedUrls.put(key, givenQuery.getDepth());
+                        GivenQuery tmp = givenQuery.clone();
+                        tmp.setDepth(givenQuery.getDepth() - 1);
+                        tmp.setUrl(linkInUrl);
+                        evalQuery(tmp);
+                    }
                 }
             }
         }
@@ -84,10 +122,10 @@ public class Crawler implements Runnable {
         return getDomain(url);
     }
 
-    private List<String> findMatchedSentences(Query query, List<String> sentences) {
+    private List<String> findMatchedSentences(GivenQuery givenQuery, List<String> sentences) {
         List<String> matchedSentences = new ArrayList<>();
         for (String sentence : sentences) {
-            if (query.matches(sentence)) {
+            if (givenQuery.matches(sentence)) {
                 matchedSentences.add(sentence);
             }
         }

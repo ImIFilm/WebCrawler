@@ -1,25 +1,32 @@
 package Controller;
 
-import Model.Query;
+import Model.GivenQuery;
 import Utilities.Crawler;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
+import javafx.collections.ObservableSet;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AppController {
 
-
     private Stage primaryStage;
     private Stage dialogStage;
-    private ObservableList<Query> queries;
+    private ObservableList<GivenQuery> queries;
+
     private ObservableList<UrlPerSentence> urlPerSentences;
+    private ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList();
 
     public AppController(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -41,12 +48,13 @@ public class AppController {
             // set initial data into controller
             MainWindowController controller = loader.getController();
             controller.setAppController(this);
+            controller.setChartData(this.chartData);
 
             //test values
             queries = FXCollections.observableArrayList();
             urlPerSentences = FXCollections.observableArrayList();
-//            queries.add(new Query("http://galaxy.agh.edu.pl/~kzajac/dydakt/tw/index.html", "wątek", "", 2, true));
-            queries.add(new Query("http://onet.pl", "Polska", "", 0, true));
+            queries.add(new GivenQuery("http://galaxy.agh.edu.pl/~kzajac/dydakt/tw/index.html", "wątek", "", 2, true));
+            queries.add(new GivenQuery("http://onet.pl", "Polska", "", 0, true));
 
             controller.setTableViews(urlPerSentences, queries);
             // add layout to a scene and show them all
@@ -72,7 +80,7 @@ public class AppController {
             controller.setAppController(this);
             // Create the dialog Stage.
             dialogStage = new Stage();
-            dialogStage.setTitle("Add Query");
+            dialogStage.setTitle("Add GivenQuery");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -92,17 +100,26 @@ public class AppController {
         dialogStage.close();
     }
 
-    public void addQueryDialog(Query query) {
+    public void addQueryDialog(GivenQuery givenQuery) {
 
-        queries.add(query);
+        queries.add(givenQuery);
     }
 
-    public ObservableList<Query> getQueries() {
+    public ObservableList<GivenQuery> getQueries() {
         return queries;
     }
 
     public void addResult(String url, String sentence) {
         urlPerSentences.add(new UrlPerSentence(url, sentence));
+    }
+
+    public void addChartData(Map<String, Integer> data){
+        Platform.runLater(()-> {
+                chartData.clear();
+                for(String val : data.keySet()){
+                    chartData.add(new PieChart.Data(val, data.get(val)));
+                }
+            });
     }
 
     public void startWebCrawling() {
